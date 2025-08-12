@@ -1,14 +1,13 @@
-obras = []
-reservas = []
-
+import funciones, obras, reservas
+obras = [[id_obra][nombre]]
+funciones=[[id_funcion][id_obra][fechas][capacidad]]
+reservas = [[nr][id_funcion][nombre][mail][cant][total]]
 
 def agregar_obras():
     cant_obras = int(input("Obras que desesa agregar:"))
     for i in range(cant_obras):
         id_obra = len(obras) + 1
         nombre = input("Nombre de la obra que desea agregar:")
-        fecha = input("Fecha de la obra:")
-        horario = input("Horario:")
         capacidad = int(input("capacidad:"))
         while capacidad < 0:
             print("error la capacidad debe ser mayor que 0")
@@ -17,8 +16,7 @@ def agregar_obras():
         while precio < 0:
             print("Error el precio debe ser mayor que 0")
             precio = int(input("Precio de la obra:"))
-        ocupada = int(input("Cuantos lugares ya estan ocupados:"))
-        obra = [id_obra, nombre, fecha, horario, capacidad, precio, ocupada]
+        obra = [id_obra, nombre, capacidad, precio, ]
         obras.append(obra)
         print(f"La obra {nombre} fue agregada con exito")
 
@@ -28,7 +26,7 @@ def agregar_reservas():
     for i in range(cant_reservas):
         nreserva = len(reservas) + 1
         id_obra = int(input("Ingrese el ID de la obra: "))
-        nombre = input("Nombre del cliente: ")
+        nombre = input("Nombre del usuario: ")
         mail = input("Mail del cliente: ")
         cant = int(input("Cantidad de entradas: "))
         while cant <= 0:
