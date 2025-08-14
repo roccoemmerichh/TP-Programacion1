@@ -1,9 +1,11 @@
 import funciones, obras, reservas
-obras = [[id_obra][nombre]]
-funciones=[[id_funcion][id_obra][fechas][capacidad]]
-reservas = [[nr][id_funcion][nombre][mail][cant][total]]
 
-def agregar_obras():
+# obras = [[id_obra][nombre]]
+# funciones=[[id_funcion][id_obra][fechas][capacidad]]
+# reservas = [[nr][id_funcion][nombre][mail][cant][total]]
+
+
+def agregar_obras():  # TODO Mover a obras.py
     cant_obras = int(input("Obras que desesa agregar:"))
     for i in range(cant_obras):
         id_obra = len(obras) + 1
@@ -16,12 +18,17 @@ def agregar_obras():
         while precio < 0:
             print("Error el precio debe ser mayor que 0")
             precio = int(input("Precio de la obra:"))
-        obra = [id_obra, nombre, capacidad, precio, ]
+        obra = [
+            id_obra,
+            nombre,
+            capacidad,
+            precio,
+        ]
         obras.append(obra)
         print(f"La obra {nombre} fue agregada con exito")
 
 
-def agregar_reservas():
+def agregar_reservas():  # TODO Mover a reservas.py
     cant_reservas = int(input("¿Cuántas reservas desea agregar?: "))
     for i in range(cant_reservas):
         nreserva = len(reservas) + 1
@@ -39,66 +46,65 @@ def agregar_reservas():
         print(f"La reserva {nreserva} fue agregada con éxito")
 
 
-def mostrar_obras(obras):
-    encabezados_obras = [
-        "id obra",
-        "Nombre",
-        "Fecha",
-        "Horario",
-        "Capacidad",
-        "Precio",
-        "Ocupadas",
-    ]
-    for titulo in encabezados_obras:
+def mostrar_matriz(matriz, encabezados):
+    print()
+    for titulo in encabezados:
         print(titulo, end="\t")
     print()
-    for fila in obras:
+    for fila in matriz:
         for dato in fila:
             print(dato, end="\t")
         print()
 
 
-def mostrar_reservas(reservas):
-    encabezados_reservas = [
-        "N reserva",
-        "Id obra",
-        "Nombre",
-        "Mail",
-        "total",
-        "Cantidad",
-    ]
-    for titulo in encabezados_reservas:
-        print(titulo, end="\t")
-    print()
-    for fila in reservas:
-        for dato in fila:
-            print(dato, end="\t")
-        print()
-
-
-def menu():
+def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla inválida no se cierre el programa
     while True:
+        print()
         print("===Menu===")
         print("1-Mostrar obras")
         print("2-Agregar obras")
         print("3-Mostrar reservas")
         print("4-Agregar reservas")
-        print("5-Salir")
+        print("-"*20)
+        print("0-Salir")
 
-        opcion = int(input("Escoja una opcion:"))
-        if opcion == 1:
-            mostrar_obras(obras)
+        opcion = int(input("Escoja una opcion: "))
+        if opcion == 0:  # Salir
+            print("Gracias por usar el sistema")
+            break
+
+        elif opcion == 1:
+            encabezados_obras = [
+                "id obra",
+                "Nombre",
+                "Fecha",
+                "Horario",
+                "Capacidad",
+                "Precio",
+                "Ocupadas",
+            ]
+            mostrar_matriz(obras.obras, encabezados_obras)
+
         elif opcion == 2:
             agregar_obras()
+
         elif opcion == 3:
-            mostrar_reservas(reservas)
+            encabezados_reservas = [
+                "N reserva",
+                "Id obra",
+                "Nombre",
+                "Mail",
+                "total",
+                "Cantidad",
+            ]
+            mostrar_matriz(reservas.reservas, encabezados_reservas)
+
         elif opcion == 4:
             agregar_reservas()
-        elif opcion == 5:
-            print("Gracias por usar el sistema")
-            exit()
+
         else:
-            print("Error opcion invalida")
+            input("ERROR: opcion invalida, presione cualquier tecla para continuar")
 
 
-menu()
+if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
+    menu()
