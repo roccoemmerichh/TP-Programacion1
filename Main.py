@@ -1,4 +1,5 @@
-import funciones, obras, reservas
+import funciones, obras, reservas, usuarios
+from usuarios import crear_usuario, mostrar_usuarios
 
 # obras = [[id_obra][nombre]]
 # funciones=[[id_funcion][id_obra][fechas][capacidad]]
@@ -65,6 +66,8 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
         print("2-Agregar obras")
         print("3-Mostrar reservas")
         print("4-Agregar reservas")
+        print("5-Agregar Usuario")
+        print("6-Mostrar Usuarios")
         print("-"*20)
         print("0-Salir")
 
@@ -101,6 +104,12 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
 
         elif opcion == 4:
             agregar_reservas()
+        
+        elif opcion == 5:
+            crear_usuario()
+        
+        elif opcion == 6:
+            mostrar_usuarios()
 
         else:
             input("ERROR: opcion invalida, presione cualquier tecla para continuar")
