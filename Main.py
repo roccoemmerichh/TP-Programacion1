@@ -80,6 +80,8 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
         print("4-Agregar reservas")
         print("5-Agregar Usuario")
         print("6-Mostrar Usuarios")
+        print("7-Modificar Usuarios")
+        print("8-Eliminar Usuarios")
         print("-" * 20)
         print("0-Salir")
 
@@ -125,6 +127,12 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
 
         elif opcion == 6:
             mostrar_usuarios()
+        
+        elif opcion == 7:
+            modificar_usuario()
+        
+        elif opcion == 8:
+            borrar_usuario()
 
         else:
             input("ERROR: opcion invalida, presione cualquier tecla para continuar")

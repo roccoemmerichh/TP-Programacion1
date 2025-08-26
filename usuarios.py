@@ -28,3 +28,32 @@ def mostrar_usuarios():
         for dato in usuario:
             print(dato, end="\t")
         print()
+
+def modificar_usuario():
+    id_modificar = int(input("Ingrese el ID del usuario a modificar: "))
+    for usuario in usuarios:
+        if usuario[0] == id_modificar: 
+            print(f"Usuario encontrado: {usuario[1]}")
+            nuevo_nombre = input("Nuevo nombre (enter para dejar igual): ")
+            nuevo_email = input("Nuevo email (enter para dejar igual): ")
+            nuevo_telefono = input("Nuevo teléfono (enter para dejar igual): ")
+
+            if nuevo_nombre != "":
+                usuario[1] = nuevo_nombre
+            if nuevo_email != "":
+                usuario[2] = nuevo_email
+            if nuevo_telefono != "":
+                usuario[3] = nuevo_telefono
+
+            print("Usuario modificado con éxito.")
+            return
+    print("Usuario no encontrado o inactivo.")
+
+def borrar_usuario():
+    id_borrar = int(input("Ingrese el ID del usuario a borrar: "))
+    for usuario in usuarios:
+        if usuario[0] == id_borrar:
+            usuarios.remove(usuario)
+            print(f"Usuario {usuario[1]} fue eliminado.")
+            return
+    print("Usuario no encontrado.")
