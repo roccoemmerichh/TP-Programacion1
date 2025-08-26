@@ -1,6 +1,6 @@
 import funciones, obras, reservas
 obras = [[id_obra][nombre]]
-funciones=[[id_funcion][id_obra][fechas][capacidad]]
+funciones=[[id_funcion][id_obra][fechas]]
 reservas = [[nr][id_funcion][nombre][mail][cant][total]]
 
 def agregar_obras():

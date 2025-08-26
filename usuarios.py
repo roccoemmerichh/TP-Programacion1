@@ -1,0 +1,59 @@
+usuarios = [
+    [1, "Juan Pérez", "juanperez@gmail.com", "12345678"],
+    [2, "Ana Gómez", "anagomez@gmail.com", "87654321"],
+    [3, "Carlos López", "carloslopez@gmail.com", "11223344"],
+    [4, "María Díaz", "mariadiaz@gmail.com", "44332211"],
+    [5, "Luis Fernández", "luisfernandez@gmail.com", "99887766"],
+]
+
+
+def crear_usuario():
+    id_usuario = len(usuarios) + 1
+    nombre = input("Nombre del usuario: ")
+    email = input("Email del usuario: ")
+    telefono = input("Teléfono del usuario: ")
+
+    usuario = [id_usuario, nombre, email, telefono]
+    usuarios.append(usuario)
+    print(f" Usuario {nombre} creado con éxito (ID: {id_usuario})")
+
+
+def mostrar_usuarios():
+    encabezados = ["ID Usuario", "Nombre", "Email", "Teléfono"]
+    print("\n======================USUARIOS============================")
+    for titulo in encabezados:
+        print(titulo, end="\t")
+    print()
+    for usuario in usuarios:
+        for dato in usuario:
+            print(dato, end="\t")
+        print()
+
+def modificar_usuario():
+    id_modificar = int(input("Ingrese el ID del usuario a modificar: "))
+    for usuario in usuarios:
+        if usuario[0] == id_modificar: 
+            print(f"Usuario encontrado: {usuario[1]}")
+            nuevo_nombre = input("Nuevo nombre (enter para dejar igual): ")
+            nuevo_email = input("Nuevo email (enter para dejar igual): ")
+            nuevo_telefono = input("Nuevo teléfono (enter para dejar igual): ")
+
+            if nuevo_nombre != "":
+                usuario[1] = nuevo_nombre
+            if nuevo_email != "":
+                usuario[2] = nuevo_email
+            if nuevo_telefono != "":
+                usuario[3] = nuevo_telefono
+
+            print("Usuario modificado con éxito.")
+            return
+    print("Usuario no encontrado o inactivo.")
+
+def borrar_usuario():
+    id_borrar = int(input("Ingrese el ID del usuario a borrar: "))
+    for usuario in usuarios:
+        if usuario[0] == id_borrar:
+            usuarios.remove(usuario)
+            print(f"Usuario {usuario[1]} fue eliminado.")
+            return
+    print("Usuario no encontrado.")
