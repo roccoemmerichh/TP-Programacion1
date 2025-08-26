@@ -1,4 +1,5 @@
 from obras import *
+
 reservas = [
     [1, 1, 1, 2, "A1,A2",       12000, 24000],
     [2, 2, 2, 4, "B1,B2,B3,B4", 12000, 48000],
@@ -130,6 +131,7 @@ def init_estado_desde_reservas():
                     if butacas_visuales[i][j] == butaca:
                         butacas_estado[i][j] = "X"  # marcar ocupada
 
+<<<<<<< HEAD
 def borrar_reserva():
     mostrar_reservas(reservas)
     nr = int(input("Ingrese el número de reserva que desea borrar: "))
@@ -168,3 +170,8 @@ if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
     mostrar_reservas(reservas)
     init_estado_desde_reservas()
 
+=======
+
+if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
+    mostrar_reservas(reservas)
+>>>>>>> 12cb59547ad7295dbb1c4861438ff73f22c15033
