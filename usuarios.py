@@ -17,6 +17,7 @@ def crear_usuario():
     usuarios.append(usuario)
     print(f" Usuario {nombre} creado con éxito (ID: {id_usuario})")
 
+
 def mostrar_usuarios():
     encabezados = ["ID Usuario", "Nombre", "Email", "Teléfono"]
     print("\n======================USUARIOS============================")

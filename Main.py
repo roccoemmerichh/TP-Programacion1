@@ -1,5 +1,9 @@
-import funciones, obras, reservas, usuarios
-from usuarios import crear_usuario, mostrar_usuarios
+import time, os
+
+from obras import *
+from funciones import *
+from reservas import *
+from usuarios import *
 
 # obras = [[id_obra][nombre]]
 # funciones=[[id_funcion][id_obra][fechas][capacidad]]
@@ -58,6 +62,14 @@ def mostrar_matriz(matriz, encabezados):
         print()
 
 
+def limpiar_terminal():
+    if os.name == "nt":
+        os.system("cls")  # Windows
+    else:
+        os.system("clear")  # Mac/Linux
+    return
+
+
 def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla inválida no se cierre el programa
     while True:
         print()
@@ -68,12 +80,15 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
         print("4-Agregar reservas")
         print("5-Agregar Usuario")
         print("6-Mostrar Usuarios")
-        print("-"*20)
+        print("-" * 20)
         print("0-Salir")
 
+        print()
         opcion = int(input("Escoja una opcion: "))
         if opcion == 0:  # Salir
             print("Gracias por usar el sistema")
+            time.sleep(2)
+            limpiar_terminal()
             break
 
         elif opcion == 1:
@@ -86,7 +101,7 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
                 "Precio",
                 "Ocupadas",
             ]
-            mostrar_matriz(obras.obras, encabezados_obras)
+            mostrar_matriz(obras, encabezados_obras)
 
         elif opcion == 2:
             agregar_obras()
@@ -100,14 +115,14 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
                 "total",
                 "Cantidad",
             ]
-            mostrar_matriz(reservas.reservas, encabezados_reservas)
+            mostrar_matriz(reservas, encabezados_reservas)
 
         elif opcion == 4:
             agregar_reservas()
-        
+
         elif opcion == 5:
             crear_usuario()
-        
+
         elif opcion == 6:
             mostrar_usuarios()
 
