@@ -70,5 +70,23 @@ def mostrar_reservas(reservas):
         print()
 
 
+def agregar_reservas():
+    cant_reservas = int(input("¿Cuántas reservas desea agregar?: "))
+    for i in range(cant_reservas):
+        nreserva = len(reservas) + 1
+        id_obra = int(input("Ingrese el ID de la obra: "))
+        nombre = input("Nombre del usuario: ")
+        mail = input("Mail del cliente: ")
+        cant = int(input("Cantidad de entradas: "))
+        while cant <= 0:
+            print("Error: la cantidad debe ser mayor que 0.")
+            cant = int(input("Cantidad de entradas: "))
+        total = int(input("Total a pagar: "))
+
+        reserva = [nreserva, id_obra, nombre, mail, cant, total]
+        reservas.append(reserva)
+        print(f"La reserva {nreserva} fue agregada con éxito")
+
+
 if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
     mostrar_reservas(reservas)

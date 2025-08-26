@@ -10,47 +10,6 @@ from usuarios import *
 # reservas = [[nr][id_funcion][nombre][mail][cant][total]]
 
 
-def agregar_obras():  # TODO Mover a obras.py
-    cant_obras = int(input("Obras que desesa agregar:"))
-    for i in range(cant_obras):
-        id_obra = len(obras) + 1
-        nombre = input("Nombre de la obra que desea agregar:")
-        capacidad = int(input("capacidad:"))
-        while capacidad < 0:
-            print("error la capacidad debe ser mayor que 0")
-            capacidad = int(input("capacidad:"))
-        precio = int(input("Precio de la obra:"))
-        while precio < 0:
-            print("Error el precio debe ser mayor que 0")
-            precio = int(input("Precio de la obra:"))
-        obra = [
-            id_obra,
-            nombre,
-            capacidad,
-            precio,
-        ]
-        obras.append(obra)
-        print(f"La obra {nombre} fue agregada con exito")
-
-
-def agregar_reservas():  # TODO Mover a reservas.py
-    cant_reservas = int(input("¿Cuántas reservas desea agregar?: "))
-    for i in range(cant_reservas):
-        nreserva = len(reservas) + 1
-        id_obra = int(input("Ingrese el ID de la obra: "))
-        nombre = input("Nombre del usuario: ")
-        mail = input("Mail del cliente: ")
-        cant = int(input("Cantidad de entradas: "))
-        while cant <= 0:
-            print("Error: la cantidad debe ser mayor que 0.")
-            cant = int(input("Cantidad de entradas: "))
-        total = int(input("Total a pagar: "))
-
-        reserva = [nreserva, id_obra, nombre, mail, cant, total]
-        reservas.append(reserva)
-        print(f"La reserva {nreserva} fue agregada con éxito")
-
-
 def mostrar_matriz(matriz, encabezados):
     print()
     for titulo in encabezados:
@@ -70,30 +29,90 @@ def limpiar_terminal():
     return
 
 
-def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla inválida no se cierre el programa
-    while True:
-        print()
-        print("===Menu===")
-        print("1-Mostrar obras")
-        print("2-Agregar obras")
-        print("3-Mostrar reservas")
-        print("4-Agregar reservas")
-        print("5-Agregar Usuario")
-        print("6-Mostrar Usuarios")
-        print("7-Modificar Usuarios")
-        print("8-Eliminar Usuarios")
-        print("-" * 20)
-        print("0-Salir")
+# ----------------------------------------------------------------------------------------------
+# CUERPO PRINCIPAL
+# ----------------------------------------------------------------------------------------------
+def main():
+    # -------------------------------------------------
+    # Inicialización de variables
+    # ----------------------------------------------------------------------------------------------
 
+    # -------------------------------------------------
+    # Bloque de menú
+    # ----------------------------------------------------------------------------------------------
+    while True:
+        while True:
+            opciones = 9
+            print()
+            print("-" * 20)
+            print("MENÚ PRINCIPAL")
+            print("-" * 20)
+            print("1-Mostrar obras")
+            print("2-Agregar obras")
+            print("3-Mostrar reservas")
+            print("4-Agregar reservas")
+            print("5-Mostrar Usuarios")
+            print("6-Agregar Usuario")
+            print("7-Modificar Usuarios")
+            print("8-Eliminar Usuarios")
+            print("-" * 20)
+            print("[0] Salir del programa")
+            print("-" * 20)
+            print()
+
+            opcion = input("Seleccione una opción: ")
+            if opcion in [
+                str(i) for i in range(0, opciones + 1)
+            ]:  # Sólo continua si se elije una opcion de menú válida
+                break
+            else:
+                input("Opción inválida. Presione ENTER para volver a seleccionar.")
         print()
-        opcion = int(input("Escoja una opcion: "))
-        if opcion == 0:  # Salir
+
+        if opcion == "0":  # Opción salir del programa
             print("Gracias por usar el sistema")
             time.sleep(2)
             limpiar_terminal()
-            break
+            exit()  # También puede ser sys.exit() para lo cual hay que importar el módulo sys
 
-        elif opcion == 1:
+        # elif opcion == "1":   # Opción 1
+        # while True:
+        #     while True:
+        #         opciones = 4
+        #         print()
+        #         print("---------------------------")
+        #         print("MENÚ PRINCIPAL > MENÚ DE CLIENTES")
+        #         print("---------------------------")
+        #         print("[1] Ingresar clientes")
+        #         print("[2] Opción 2")
+        #         print("[3] Opción 3")
+        #         print("[4] Opción 4")
+        #         print("---------------------------")
+        #         print("[0] Volver al menú anterior")
+        #         print("---------------------------")
+        #         print()
+
+        #         opcion = input("Seleccione una opción: ")
+        #         if opcion in [str(i) for i in range(0, opciones + 1)]: # Sólo continua si se elije una opcion de menú válida
+        #             break
+        #         else:
+        #             input("Opción inválida. Presione ENTER para volver a seleccionar.")
+        #     print()
+
+        #     if opcion == "0": # Opción salir del submenú
+        #         break # No salimos del programa, volvemos al menú anterior
+        #     elif opcion == "1":   # Opción 1
+        #         clientes = altaCliente(clientes)
+        #         print("Dando de alta al cliente...")
+
+        #     elif opcion == "2":   # Opción 2
+        #         ...
+        #     elif opcion == "3":   # Opción 3
+        #         ...
+        #     elif opcion == "4":   # Opción 4
+        #         ...
+
+        elif opcion == "1":  # Opción 1
             encabezados_obras = [
                 "id obra",
                 "Nombre",
@@ -105,10 +124,10 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
             ]
             mostrar_matriz(obras, encabezados_obras)
 
-        elif opcion == 2:
+        elif opcion == "2":  # Opción 2
             agregar_obras()
 
-        elif opcion == 3:
+        elif opcion == "3":  # Opción 3
             encabezados_reservas = [
                 "N reserva",
                 "Id obra",
@@ -119,24 +138,24 @@ def menu():  # TODO Mejorar el menú para que cuando se ingrese una tecla invál
             ]
             mostrar_matriz(reservas, encabezados_reservas)
 
-        elif opcion == 4:
+        elif opcion == "4":  # Opción 4
             agregar_reservas()
 
-        elif opcion == 5:
+        elif opcion == "5":  # Opción 5
+            mostrar_usuarios()
+
+        elif opcion == "6":  # Opción 6
             crear_usuario()
 
-        elif opcion == 6:
-            mostrar_usuarios()
-        
-        elif opcion == 7:
+        elif opcion == "7":  # Opción 7
             modificar_usuario()
-        
-        elif opcion == 8:
+
+        elif opcion == "8":  # Opción 8
             borrar_usuario()
 
-        else:
-            input("ERROR: opcion invalida, presione cualquier tecla para continuar")
+        input("\nPresione ENTER para volver al menú.")
+        print("\n\n")
 
 
 if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
-    menu()
+    main()
