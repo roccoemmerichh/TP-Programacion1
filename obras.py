@@ -1,9 +1,8 @@
 obras = [
-    [1, "Hamlet"],
-    [2, "El Lago de los Cisnes"],
-    [3, "La Casa de Bernarda Alba"],
-    [4, "Don Quijote"],
-    [5, "Romeo y Julieta"],
+    [1, "La Traviata", 150, 5000],
+    [2, "Hamlet", 200, 6500],
+    [3, "El Lago de los Cisnes", 180, 7000],
+    [4, "Don Quijote", 220, 5500],
 ]
 
 
