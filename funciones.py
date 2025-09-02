@@ -19,11 +19,11 @@ def mostrar_funciones():
     encabezados = ["ID FUNCION", "ID OBRA", "FECHA"]
     print("\n======================USUARIOS============================")
     for titulo in encabezados:
-        print(titulo, end="\t")
+        print(titulo, end="\t\t\t")
     print()
     for fila in funciones:
         for dato in fila:
-            print(dato, end="\t")
+            print(dato, end="\t\t\t")
         print()
 
 def updetearFuncion():
@@ -44,5 +44,17 @@ def updetearFuncion():
     if encontrada == 0:
         print("Función no encontrada")
     mostrar_funciones()
+
+def borrarFuncion():
+    id_borrar = int(input("Ingrese el ID de la obra a borrar: "))
+    encontrado = False 
+    for id_funcion in funciones:
+        if id_funcion[0] == id_borrar:
+            funciones.remove(id_funcion)
+            print(f"Funcion {id_funcion[1]} fue eliminada.")
+            encontrado = True
+    if not encontrado:
+        print("Funcion no encontrada.")
+
 mostrar_funciones()
 updetearFuncion()
