@@ -10,7 +10,7 @@ from usuarios import *
 # reservas = [[nr][id_funcion][nombre][mail][cant][total]]
 
 
-def mostrar_matriz(matriz, encabezados):
+def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
     for titulo in encabezados:
         print(titulo, end="\t")
@@ -44,14 +44,15 @@ def main():
     # ----------------------------------------------------------------------------------------------
     while True:
         while True:
-            opciones = 9
+            opciones = 5
             print()
             print("-" * 20)
             print("MENÚ PRINCIPAL")
             print("-" * 20)
             print("1-Gestión de Obras")
-            print("2-Gestión de Reservas")
-            print("3-Gestión Usuarios")
+            print("2-Gestión de Funciones")
+            print("3-Gestión de Reservas")
+            print("4-Gestión Usuarios")
             print("-" * 20)
             print("[0] Salir del programa")
             print("-" * 20)
@@ -116,7 +117,43 @@ def main():
                 elif opcion == "2":  # Opción 2
                     agregar_obras()
 
-        elif opcion == "2":  # MENÚ RESERVAS
+        elif opcion == "2":  # MENÚ FUNCIONES
+            while True:
+                while True:
+                    opciones = 3
+                    print()
+                    print("---------------------------")
+                    print("MENÚ PRINCIPAL > MENÚ FUNCIONES")
+                    print("---------------------------")
+                    print("1-Mostrar funciones")
+                    print("2-Agregar funciones")
+                    print("---------------------------")
+                    print("[0] Volver al menú anterior")
+                    print("---------------------------")
+                    print()
+
+                    opcion = input("Seleccione una opción: ")
+                    if opcion in [
+                        str(i) for i in range(0, opciones + 1)
+                    ]:  # Sólo continua si se elije una opcion de menú válida
+                        break
+                    else:
+                        input(
+                            "Opción inválida. Presione ENTER para volver a seleccionar."
+                        )
+                print()
+
+                if opcion == "0":  # Opción salir del submenú
+                    break  # Volver al menú anterior
+
+                elif opcion == "1":  # Mostrar Funciones
+                    encabezados_funciones = ["ID Función", "ID Obra", "Fecha"]
+                    mostrar_matriz(funciones, encabezados_funciones)
+
+                elif opcion == "2":
+                    crear_funcion()
+
+        elif opcion == "3":  # MENÚ RESERVAS
             while True:
                 while True:
                     opciones = 3
@@ -147,19 +184,20 @@ def main():
 
                 elif opcion == "1":  # Opción 1
                     encabezados_reservas = [
-                        "N reserva",
-                        "Id obra",
-                        "Nombre",
-                        "Mail",
-                        "total",
+                        "Usuario",
+                        "NR",
+                        "ID Obra",
                         "Cantidad",
+                        "Butacas",
+                        "Precio",
+                        "Total",
                     ]
                     mostrar_matriz(reservas, encabezados_reservas)
 
                 elif opcion == "2":  # Opción 2
                     crear_reserva()
 
-        elif opcion == "3":  # MENÚ USUARIOS
+        elif opcion == "4":  # MENÚ USUARIOS
             while True:
                 while True:
                     opciones = 6
@@ -193,7 +231,8 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    mostrar_usuarios()
+                    encabezados_usuarios = ["ID Usuario", "Nombre", "Email", "Teléfono"]
+                    mostrar_matriz(usuarios, encabezados_usuarios)
 
                 elif opcion == "2":  # Opción 2
                     crear_usuario()
@@ -208,7 +247,7 @@ def main():
                     promedio_edad_por_funcion()
 
                 elif opcion == "6":  # Opción 6
-                    usuarios_con_mas_reservas()  
+                    usuarios_con_mas_reservas()
 
         input("\nPresione ENTER para volver al menú.")
         print("\n\n")

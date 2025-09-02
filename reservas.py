@@ -95,9 +95,6 @@ def mostrar_reservas(reservas):
             print(dato, end="\t")
         print()
 
-if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
-    mostrar_reservas(reservas)
-
 
 def init_estado_desde_reservas():
     for reserva in reservas:
@@ -111,5 +108,11 @@ def init_estado_desde_reservas():
                 for j in range(len(butacas_visuales[i])):
                     if butacas_visuales[i][j] == butaca:
                         butacas_estado[i][j] = "X"  # marcar ocupada
-init_estado_desde_reservas()
-mostrar_butacas()
+
+
+# init_estado_desde_reservas()
+# mostrar_butacas()
+
+
+if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
+    mostrar_reservas(reservas)

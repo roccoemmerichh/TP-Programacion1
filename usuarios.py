@@ -22,21 +22,10 @@ def crear_usuario():
     print(f" Usuario {nombre} creado con éxito (ID: {id_usuario})")
 
 
-def mostrar_usuarios():
-    encabezados = ["ID Usuario", "Nombre", "Email", "Teléfono"]
-    print("\n======================USUARIOS============================")
-    for titulo in encabezados:
-        print(titulo, end="\t")
-    print()
-    for usuario in usuarios:
-        for dato in usuario:
-            print(dato, end="\t")
-        print()
-
 def modificar_usuario():
     id_modificar = int(input("Ingrese el ID del usuario a modificar: "))
     for usuario in usuarios:
-        if usuario[0] == id_modificar: 
+        if usuario[0] == id_modificar:
             print(f"Usuario encontrado: {usuario[1]}")
             nuevo_nombre = input("Nuevo nombre (enter para dejar igual): ")
             nuevo_email = input("Nuevo email (enter para dejar igual): ")
@@ -53,9 +42,10 @@ def modificar_usuario():
             return
     print("Usuario no encontrado o inactivo.")
 
+
 def borrar_usuario():
     id_borrar = int(input("Ingrese el ID del usuario a borrar: "))
-    encontrado = False 
+    encontrado = False
 
     for usuario in usuarios:
         if usuario[0] == id_borrar:
@@ -87,12 +77,12 @@ def usuarios_con_mas_reservas():
 
 promedio = lambda lista: sum(lista) / len(lista) if lista else 0
 
+
 def promedio_edad_por_funcion():
     for funcion in funciones:
-        id_funcion = funcion[1]  
+        id_funcion = funcion[1]
         nombre_funcion = f"Función {id_funcion} - {funcion[2]}"
 
-        
         edades = []
         for reserva in reservas:
             if reserva[1] == id_funcion:
