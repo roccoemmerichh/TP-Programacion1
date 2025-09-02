@@ -157,12 +157,12 @@ def main():
                     mostrar_matriz(reservas, encabezados_reservas)
 
                 elif opcion == "2":  # Opción 2
-                    agregar_reservas()
+                    crear_reserva()
 
         elif opcion == "3":  # MENÚ USUARIOS
             while True:
                 while True:
-                    opciones = 3
+                    opciones = 6
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ USUARIOS")
@@ -171,6 +171,8 @@ def main():
                     print("2-Crear Usuario")
                     print("3-Modificar Usuario")
                     print("4-Borrar Usuario")
+                    print("5-Mostrar promedio de edad de Usuarios en la funcion")
+                    print("6-Usuarios con mas Reservas")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -201,6 +203,12 @@ def main():
 
                 elif opcion == "4":  # Opción 4
                     borrar_usuario()
+
+                elif opcion == "5":  # Opción 5
+                    promedio_edad_por_funcion()
+
+                elif opcion == "6":  # Opción 6
+                    usuarios_con_mas_reservas()  
 
         input("\nPresione ENTER para volver al menú.")
         print("\n\n")
