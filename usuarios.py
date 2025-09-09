@@ -1,57 +1,85 @@
+import re
 from funciones import *
 from reservas import *
 
-
 usuarios = [
-    [1, "Juan Pérez", "juanperez@gmail.com", "12345678"],
-    [2, "Ana Gómez", "anagomez@gmail.com", "87654321"],
-    [3, "Carlos López", "carloslopez@gmail.com", "11223344"],
-    [4, "María Díaz", "mariadiaz@gmail.com", "44332211"],
-    [5, "Luis Fernández", "luisfernandez@gmail.com", "99887766"],
+    [1, "Juan Pérez", "juanperez@gmail.com", "12345678", 25],
+    [2, "Ana Gómez", "anagomez@gmail.com", "87654321", 30],
+    [3, "Carlos López", "carloslopez@gmail.com", "11223344", 28],
+    [4, "María Díaz", "mariadiaz@gmail.com", "44332211", 35],
+    [5, "Luis Fernández", "luisfernandez@gmail.com", "99887766", 40],
 ]
 
+patron_email = re.compile(r'^[\w\.-]+@[\w\.-]+\.\w+$')
+patron_telefono = re.compile(r'^\d{8,12}$')   
 
 def crear_usuario():
     id_usuario = len(usuarios) + 1
     nombre = input("Nombre del usuario: ")
-    email = input("Email del usuario: ")
-    telefono = input("Teléfono del usuario: ")
 
-    usuario = [id_usuario, nombre, email, telefono]
+    #validar email 
+    email = input("Email del usuario: ")
+    while not patron_email.match(email):
+        print("❌ Email inválido. Ejemplo válido: usuario@dominio.com")
+        email = input("Email del usuario: ")
+
+    #validar teléfono
+    telefono = input("Teléfono del usuario (8 a 12 dígitos): ")
+    while not patron_telefono.match(telefono):
+        print("❌ Teléfono inválido. Solo números (8-12 dígitos).")
+        telefono = input("Teléfono del usuario: ")
+
+    edad = int(input("Edad del usuario: "))
+
+    usuario = [id_usuario, nombre, email, telefono, edad]
     usuarios.append(usuario)
-    print(f" Usuario {nombre} creado con éxito (ID: {id_usuario})")
+    print(f"✅ Usuario {nombre} creado con éxito (ID: {id_usuario})")
 
 
 def modificar_usuario():
     id_modificar = int(input("Ingrese el ID del usuario a modificar: "))
+    encontrado = False
     for usuario in usuarios:
         if usuario[0] == id_modificar:
+            encontrado = True
             print(f"Usuario encontrado: {usuario[1]}")
             nuevo_nombre = input("Nuevo nombre (enter para dejar igual): ")
+
             nuevo_email = input("Nuevo email (enter para dejar igual): ")
-            nuevo_telefono = input("Nuevo teléfono (enter para dejar igual): ")
-
-            if nuevo_nombre != "":
-                usuario[1] = nuevo_nombre
-            if nuevo_email != "":
+            if nuevo_email and patron_email.match(nuevo_email):
                 usuario[2] = nuevo_email
-            if nuevo_telefono != "":
-                usuario[3] = nuevo_telefono
+            elif nuevo_email:
+                print("❌ Email inválido. No se modificó.")
 
-            print("Usuario modificado con éxito.")
-            return
-    print("Usuario no encontrado o inactivo.")
+            nuevo_telefono = input("Nuevo teléfono (enter para dejar igual): ")
+            if nuevo_telefono and patron_telefono.match(nuevo_telefono):
+                usuario[3] = nuevo_telefono
+            elif nuevo_telefono:
+                print("❌ Teléfono inválido. No se modificó.")
+
+            nueva_edad = input("Nueva edad (enter para dejar igual): ")
+            if nueva_edad:
+                usuario[4] = int(nueva_edad)
+
+            if nuevo_nombre:
+                usuario[1] = nuevo_nombre
+
+            print("✅ Usuario modificado con éxito.")
+            break
+
+    if not encontrado:
+        print("Usuario no encontrado.")
 
 
 def borrar_usuario():
     id_borrar = int(input("Ingrese el ID del usuario a borrar: "))
     encontrado = False
-
     for usuario in usuarios:
         if usuario[0] == id_borrar:
             usuarios.remove(usuario)
-            print(f"Usuario {usuario[1]} fue eliminado.")
+            print(f"✅ Usuario {usuario[1]} fue eliminado.")
             encontrado = True
+            break
     if not encontrado:
         print("Usuario no encontrado.")
 
