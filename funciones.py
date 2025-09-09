@@ -46,4 +46,14 @@ def updetearFuncion():
         print("Función no encontrada")
     mostrar_funciones()
 
+def borrarfuncion():
+    id_borrar= int(input("Ingrese el ID de la funcion a borrar: "))
+    encontrado = False
+    for id_funcion in funciones:
+        if id_funcion[0]==id_borrar:
+            funciones.remove(id_funcion)
+            print(f"Usuario {id_funcion[1]} fue eliminado.")
+            encontrado = True
+    if not encontrado:
+        print("Usuario no encontrado.")
 mostrar_funciones()

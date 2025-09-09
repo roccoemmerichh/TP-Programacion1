@@ -1,5 +1,4 @@
 import time, os
-
 from obras import *
 from funciones import *
 from reservas import *
@@ -120,7 +119,7 @@ def main():
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:
                 while True:
-                    opciones = 3
+                    opciones = 4
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ FUNCIONES")
@@ -156,10 +155,10 @@ def main():
                     crear_funcion()
                     
                 elif opcion == "3":
-                    mostrar_funciones()
+                    modificar_funcion()
 
                 elif opcion == "4":
-                    borrarFuncion()
+                    borrarfuncion()
 
         elif opcion == "3":  # MENÚ RESERVAS
             while True:
