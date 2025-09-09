@@ -110,9 +110,5 @@ def init_estado_desde_reservas():
                         butacas_estado[i][j] = "X"  # marcar ocupada
 
 
-# init_estado_desde_reservas()
-# mostrar_butacas()
-
-
 if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
     mostrar_reservas(reservas)

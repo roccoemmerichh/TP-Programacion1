@@ -23,33 +23,35 @@ def agregar_obras():
         obras.append(obra)
         print(f"La obra {nombre} fue agregada con exito")
 
-def updetearObra():
+
+def modificar_obra():
     id_modificar = int(input("Ingrese el ID de la Obra a modificar: "))
-    encontrada = 0  
+    encontrada = 0
     for id_obra in obras:
-        if id_obra[0] == id_modificar: 
+        if id_obra[0] == id_modificar:
             print(f"Función encontrada: Obra {id_obra[1]}, Fecha {id_obra[2]}")
             nuevoNombre = input("Ingrese el Nombre a actualizar:")
-            nuevoPrecio = (input("Nuevo obra: "))
-            if nuevoNombre!= "":
+            nuevoPrecio = input("Nuevo obra: ")
+            if nuevoNombre != "":
                 id_obra[1] = nuevoNombre
             if nuevoPrecio != "":
                 id_obra[2] = int(nuevoPrecio)
             print("Obra modificada con exito.")
             encontrada = 1
     mostrarObras()
-def mostrarObras():
-    encabezados = ["ID", "Nombre", "Precio",]
+
+
+def mostrar_obras():
+    encabezados = [
+        "ID",
+        "Nombre",
+        "Precio",
+    ]
     print("\n======================OBRAS============================================")
     for titulo in encabezados:
-            print(titulo, end="\t\t\t\t")
+        print(titulo, end="\t\t\t\t")
     print()
     for id_obra in obras:
         for dato in id_obra:
             print(dato, end="\t\t\t\t")
         print()
-
-        
-mostrarObras()
-updetearObra()
-    

@@ -5,19 +5,16 @@ from funciones import *
 from reservas import *
 from usuarios import *
 
-# obras = [[id_obra][nombre]]
-# funciones=[[id_funcion][id_obra][fechas][capacidad]]
-# reservas = [[nr][id_funcion][nombre][mail][cant][total]]
 
-
+# TODO Mejorar para que se ajuste automaticamente cada columna
 def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
-    for titulo in encabezados:
-        print(titulo, end="\t")
+    for titulo in encabezados: # Encabezados
+        print(f"{titulo:<25}", end="")
     print()
-    for fila in matriz:
+    for fila in matriz: # Contenido
         for dato in fila:
-            print(dato, end="\t")
+            print(f"{dato:<25}", end="")
         print()
     print()
     input("Presione ENTER para continuar")
