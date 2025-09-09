@@ -27,4 +27,23 @@ def mostrar_funciones():
         print()  
 
 
+def updetearFuncion():
+    id_modificar = int(input("Ingrese el ID de la funcion a modificar: "))
+    encontrada = 0  
+    for id_funcion in funciones:
+        if id_funcion[0] == id_modificar: 
+            print(f"Función encontrada: Obra {id_funcion[1]}, Fecha {id_funcion[2]}")
+            nuevaFecha = input("Ingrese la fecha nueva:")
+            nuevaObra = input("Nuevo obra: ")
+            if nuevaFecha != "":
+                id_funcion[2] = nuevaFecha
+            if nuevaObra != "":
+                id_funcion[1] = int(nuevaObra)
+            print("Función modificada con exito.")
+            encontrada = 1
+    
+    if encontrada == 0:
+        print("Función no encontrada")
+    mostrar_funciones()
+
 mostrar_funciones()

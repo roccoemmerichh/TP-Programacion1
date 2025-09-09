@@ -131,7 +131,6 @@ def init_estado_desde_reservas():
                     if butacas_visuales[i][j] == butaca:
                         butacas_estado[i][j] = "X"  # marcar ocupada
 
-<<<<<<< HEAD
 def borrar_reserva():
     mostrar_reservas(reservas)
     nr = int(input("Ingrese el número de reserva que desea borrar: "))
@@ -170,8 +169,3 @@ if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
     mostrar_reservas(reservas)
     init_estado_desde_reservas()
 
-=======
-
-if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
-    mostrar_reservas(reservas)
->>>>>>> 12cb59547ad7295dbb1c4861438ff73f22c15033
