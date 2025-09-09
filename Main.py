@@ -83,6 +83,7 @@ def main():
                     print("---------------------------")
                     print("1-Mostrar obras")
                     print("2-Agregar obras")
+                    print("3-Modificar obras")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -116,6 +117,8 @@ def main():
 
                 elif opcion == "2":  # Opción 2
                     agregar_obras()
+                elif opcion == "3":  # Opción 3
+                    updetearObra()
 
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:
@@ -126,7 +129,9 @@ def main():
                     print("MENÚ PRINCIPAL > MENÚ FUNCIONES")
                     print("---------------------------")
                     print("1-Mostrar funciones")
-                    print("2-Agregar funciones")
+                    print("2-Agregar funcion")
+                    print("3-Modificar funcion")
+                    print("4-Borrar funcion")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -152,6 +157,12 @@ def main():
 
                 elif opcion == "2":
                     crear_funcion()
+                    
+                elif opcion == "3":
+                    mostrar_funciones()
+
+                elif opcion == "4":
+                    borrarFuncion()
 
         elif opcion == "3":  # MENÚ RESERVAS
             while True:

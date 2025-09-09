@@ -1,5 +1,7 @@
+import re
 from funciones import *
 from reservas import *
+
 
 
 usuarios = [
@@ -10,16 +12,31 @@ usuarios = [
     [5, "Luis Fernández", "luisfernandez@gmail.com", "99887766"],
 ]
 
+patron_email = re.compile(r'^[\w\.-]+@[\w\.-]+\.\w+$')
+patron_telefono = re.compile(r'^\d{8,12}$')  
 
 def crear_usuario():
     id_usuario = len(usuarios) + 1
     nombre = input("Nombre del usuario: ")
-    email = input("Email del usuario: ")
-    telefono = input("Teléfono del usuario: ")
 
-    usuario = [id_usuario, nombre, email, telefono]
+    
+    email = input("Email del usuario: ")
+    while not patron_email.match(email):
+        print("❌ Email inválido. Ejemplo válido: usuario@dominio.com")
+        email = input("Email del usuario: ")
+
+
+    telefono = input("Teléfono del usuario (8 a 12 dígitos): ")
+    while not patron_telefono.match(telefono):
+        print("❌ Teléfono inválido. Solo números (8-12 dígitos).")
+        telefono = input("Teléfono del usuario: ")
+
+    edad = int(input("Edad del usuario: "))
+
+    usuario = [id_usuario, nombre, email, telefono, edad]
     usuarios.append(usuario)
-    print(f" Usuario {nombre} creado con éxito (ID: {id_usuario})")
+    print(f"✅ Usuario {nombre} creado con éxito (ID: {id_usuario})")
+
 
 
 def modificar_usuario():

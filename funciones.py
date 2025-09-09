@@ -55,5 +55,4 @@ def borrarFuncion():
     if not encontrado:
         print("Funcion no encontrada.")
 
-mostrar_funciones()
-updetearFuncion()
+

@@ -50,6 +50,5 @@ def mostrarObras():
         print()
 
         
-mostrarObras()
-updetearObra()
+
     
