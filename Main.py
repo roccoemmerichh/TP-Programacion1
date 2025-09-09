@@ -101,7 +101,7 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    encabezados_obras = [
+                    encabezados_obras = (
                         "id obra",
                         "Nombre",
                         "Fecha",
@@ -109,7 +109,7 @@ def main():
                         "Capacidad",
                         "Precio",
                         "Ocupadas",
-                    ]
+                    )
                     mostrar_matriz(obras, encabezados_obras)
 
                 elif opcion == "2":  # Opción 2
@@ -149,7 +149,7 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Mostrar Funciones
-                    encabezados_funciones = ["ID Función", "ID Obra", "Fecha"]
+                    encabezados_funciones = ("ID Función", "ID Obra", "Fecha")
                     mostrar_matriz(funciones, encabezados_funciones)
 
                 elif opcion == "2":
@@ -191,7 +191,7 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    encabezados_reservas = [
+                    encabezados_reservas = (
                         "Usuario",
                         "NR",
                         "ID Obra",
@@ -199,7 +199,7 @@ def main():
                         "Butacas",
                         "Precio",
                         "Total",
-                    ]
+                    )
                     mostrar_matriz(reservas, encabezados_reservas)
 
                 elif opcion == "2":  # Opción 2
@@ -239,7 +239,7 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    encabezados_usuarios = ["ID Usuario", "Nombre", "Email", "Teléfono"]
+                    encabezados_usuarios = ("ID Usuario", "Nombre", "Email", "Teléfono")
                     mostrar_matriz(usuarios, encabezados_usuarios)
 
                 elif opcion == "2":  # Opción 2
