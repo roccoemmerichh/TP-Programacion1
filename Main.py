@@ -1,4 +1,5 @@
 import time, os
+
 from obras import *
 from funciones import *
 from reservas import *
@@ -8,10 +9,10 @@ from usuarios import *
 # TODO Mejorar para que se ajuste automaticamente cada columna
 def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
-    for titulo in encabezados: # Encabezados
+    for titulo in encabezados:  # Encabezados
         print(f"{titulo:<25}", end="")
     print()
-    for fila in matriz: # Contenido
+    for fila in matriz:  # Contenido
         for dato in fila:
             print(f"{dato:<25}", end="")
         print()
@@ -100,21 +101,13 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    encabezados_obras = (
-                        "id obra",
-                        "Nombre",
-                        "Fecha",
-                        "Horario",
-                        "Capacidad",
-                        "Precio",
-                        "Ocupadas",
-                    )
-                    mostrar_matriz(obras, encabezados_obras)
+                    mostrar_matriz(obras, ("ID", "Nombre", "Precio"))
 
                 elif opcion == "2":  # Opción 2
                     agregar_obras()
+
                 elif opcion == "3":  # Opción 3
-                    updetearObra()
+                    modificar_obra()
 
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:
@@ -148,17 +141,16 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Mostrar Funciones
-                    encabezados_funciones = ("ID Función", "ID Obra", "Fecha")
-                    mostrar_matriz(funciones, encabezados_funciones)
+                    mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
 
                 elif opcion == "2":
                     crear_funcion()
-                    
+
                 elif opcion == "3":
                     modificar_funcion()
 
                 elif opcion == "4":
-                    borrarfuncion()
+                    borrar_funcion()
 
         elif opcion == "3":  # MENÚ RESERVAS
             while True:
@@ -190,16 +182,18 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    encabezados_reservas = (
-                        "Usuario",
-                        "NR",
-                        "ID Obra",
-                        "Cantidad",
-                        "Butacas",
-                        "Precio",
-                        "Total",
+                    mostrar_matriz(
+                        reservas,
+                        (
+                            "Usuario",
+                            "NR",
+                            "ID Obra",
+                            "Cantidad",
+                            "Butacas",
+                            "Precio",
+                            "Total",
+                        ),
                     )
-                    mostrar_matriz(reservas, encabezados_reservas)
 
                 elif opcion == "2":  # Opción 2
                     crear_reserva()
@@ -238,8 +232,9 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    encabezados_usuarios = ("ID Usuario", "Nombre", "Email", "Teléfono")
-                    mostrar_matriz(usuarios, encabezados_usuarios)
+                    mostrar_matriz(
+                        usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono")
+                    )
 
                 elif opcion == "2":  # Opción 2
                     crear_usuario()

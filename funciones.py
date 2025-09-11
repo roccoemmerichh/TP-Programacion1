@@ -1,37 +1,30 @@
+import Main
+
+# funciones = [
+#     [ID Función, ID Obra, Fecha]
+# ]
+
 funciones = [
     [1, 101, "2025-08-15"],
     [2, 102, "2025-08-20"],
     [3, 103, "2025-09-01"],
     [4, 104, "2025-09-10"],
     [5, 105, "2025-09-18"],
-
 ]
 
+
 def crear_funcion():
-    id_obra=int(input("ingrese el ID de la obra"))
-    id_funcion= funciones[-1][0] + 1
-    fecha= str(input("Ingrese la fecha"))
+    id_obra = int(input("ingrese el ID de la obra"))
+    id_funcion = funciones[-1][0] + 1
+    fecha = str(input("Ingrese la fecha"))
     funciones.append([id_funcion, id_obra, fecha])
- 
-
-def mostrar_funciones():
-    encabezados_funciones = ["ID Función", "ID Obra", "Fecha"]
-
-    for titulo in encabezados_funciones:
-        print(titulo, end="\t")
-    print() 
-
-    for fila in funciones:
-        for dato in fila:
-            print(dato, end="\t")
-        print()  
 
 
-def updetearFuncion():
+def modificar_funcion():
     id_modificar = int(input("Ingrese el ID de la funcion a modificar: "))
-    encontrada = 0  
+    encontrada = 0
     for id_funcion in funciones:
-        if id_funcion[0] == id_modificar: 
+        if id_funcion[0] == id_modificar:
             print(f"Función encontrada: Obra {id_funcion[1]}, Fecha {id_funcion[2]}")
             nuevaFecha = input("Ingrese la fecha nueva:")
             nuevaObra = input("Nuevo obra: ")
@@ -41,19 +34,19 @@ def updetearFuncion():
                 id_funcion[1] = int(nuevaObra)
             print("Función modificada con exito.")
             encontrada = 1
-    
+
     if encontrada == 0:
         print("Función no encontrada")
-    mostrar_funciones()
+    Main.mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
 
-def borrarfuncion():
-    id_borrar= int(input("Ingrese el ID de la funcion a borrar: "))
+
+def borrar_funcion():
+    id_borrar = int(input("Ingrese el ID de la funcion a borrar: "))
     encontrado = False
     for id_funcion in funciones:
-        if id_funcion[0]==id_borrar:
+        if id_funcion[0] == id_borrar:
             funciones.remove(id_funcion)
             print(f"Usuario {id_funcion[1]} fue eliminado.")
             encontrado = True
     if not encontrado:
         print("Usuario no encontrado.")
-mostrar_funciones()

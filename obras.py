@@ -1,3 +1,9 @@
+import Main
+
+# obras = [
+#     [ID, Nombre, Precio]
+# ]
+
 obras = [
     [1, "La Traviata", 5000],
     [2, "Hamlet", 6500],
@@ -38,20 +44,4 @@ def modificar_obra():
                 id_obra[2] = int(nuevoPrecio)
             print("Obra modificada con exito.")
             encontrada = 1
-    mostrarObras()
-
-
-def mostrar_obras():
-    encabezados = [
-        "ID",
-        "Nombre",
-        "Precio",
-    ]
-    print("\n======================OBRAS============================================")
-    for titulo in encabezados:
-        print(titulo, end="\t\t\t\t")
-    print()
-    for id_obra in obras:
-        for dato in id_obra:
-            print(dato, end="\t\t\t\t")
-        print()
+    Main.mostrar_matriz(obras, ("ID", "Nombre", "Precio"))
