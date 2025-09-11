@@ -20,6 +20,18 @@ def mostrar_matriz(matriz, encabezados="-" * 20):
     input("Presione ENTER para continuar")
 
 
+def mostrar_lista_diccionarios(lista):
+    for clave in lista[0].keys():  # Encabezados
+        print(f"{clave:<25}", end="")
+    print()
+    for diccionario in lista:  # Contenido
+        for dato in diccionario:
+            print(f"{diccionario[dato]:<25}", end="")
+        print()
+    print()
+    input("Presione ENTER para continuar")
+
+
 def limpiar_terminal():
     if os.name == "nt":
         os.system("cls")  # Windows
@@ -109,7 +121,8 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    mostrar_matriz(obras, ("ID", "Nombre", "Precio"))
+                    mostrar_lista_diccionarios(obras)
+                    # mostrar_matriz(obras, ("ID", "Nombre", "Precio"))
 
                 elif opcion == "2":  # Opción 2
                     agregar_obras()

@@ -4,11 +4,19 @@ import Main
 #     [ID, Nombre, Precio]
 # ]
 
+# obras = [
+#     [1, "La Traviata", 5000],
+#     [2, "Hamlet", 6500],
+#     [3, "El Lago de los Cisnes", 7000],
+#     [4, "Don Quijote", 5500],
+# ]
+
+
 obras = [
-    [1, "La Traviata", 5000],
-    [2, "Hamlet", 6500],
-    [3, "El Lago de los Cisnes", 7000],
-    [4, "Don Quijote", 5500],
+    {"ID": 1, "Nombre": "La Traviata", "Precio": 5000},
+    {"ID": 2, "Nombre": "Hamlet", "Precio": 6500},
+    {"ID": 3, "Nombre": "El Lago de los Cisnes", "Precio": 7000},
+    {"ID": 4, "Nombre": "Don Quijote", "Precio": 5500},
 ]
 
 
