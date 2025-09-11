@@ -13,30 +13,24 @@ obras = [
 
 
 def agregar_obras():
-    cant_obras = int(input("Obras que desesa agregar:"))
-    for i in range(cant_obras):
+    for i in range(Main.ingreso_entero("Obras que desea agregar: ")):
         id_obra = len(obras) + 1
-        nombre = input("Nombre de la obra que desea agregar:")
-        precio = int(input("Precio de la obra:"))
+        nombre = input("Nombre de la obra que desea agregar: ")
+        precio = Main.ingreso_entero("Precio de la obra: ")
         while precio < 0:
             print("Error el precio debe ser mayor que 0")
-            precio = int(input("Precio de la obra:"))
-        obra = [
-            id_obra,
-            nombre,
-            precio,
-        ]
-        obras.append(obra)
+            precio = Main.ingreso_entero("Precio de la obra: ")
+        obras.append([id_obra, nombre, precio])
         print(f"La obra {nombre} fue agregada con exito")
 
 
 def modificar_obra():
-    id_modificar = int(input("Ingrese el ID de la Obra a modificar: "))
+    id_modificar = Main.ingreso_entero("Ingrese el ID de la Obra a modificar: ")
     encontrada = 0
     for id_obra in obras:
         if id_obra[0] == id_modificar:
             print(f"Función encontrada: Obra {id_obra[1]}, Fecha {id_obra[2]}")
-            nuevoNombre = input("Ingrese el Nombre a actualizar:")
+            nuevoNombre = input("Ingrese el Nombre a modificar: ")
             nuevoPrecio = input("Nuevo obra: ")
             if nuevoNombre != "":
                 id_obra[1] = nuevoNombre

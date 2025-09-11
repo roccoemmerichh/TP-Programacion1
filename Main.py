@@ -25,7 +25,15 @@ def limpiar_terminal():
         os.system("cls")  # Windows
     else:
         os.system("clear")  # Mac/Linux
-    return
+
+
+def ingreso_entero(mensaje="Ingrese un número entero: "):
+    while True:
+        valor = input(mensaje)
+        if valor.isnumeric():
+            return int(valor)
+        else:
+            print("Ingreso inválido")
 
 
 # ----------------------------------------------------------------------------------------------
