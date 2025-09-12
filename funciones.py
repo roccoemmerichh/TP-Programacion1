@@ -50,3 +50,5 @@ def borrar_funcion():
             encontrado = True
     if not encontrado:
         print("Usuario no encontrado.")
+
+# commit de prueba 2025-09-12T14:08:18.3184104-03:00
