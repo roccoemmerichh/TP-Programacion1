@@ -21,15 +21,15 @@ obras = [
 
 
 def agregar_obras():
-    for i in range(Main.ingreso_entero("Obras que desea agregar: ")):
-        id_obra = len(obras) + 1
+    id_obra = len(obras) + 1
+    while True:
         nombre = input("Nombre de la obra que desea agregar: ")
         precio = Main.ingreso_entero("Precio de la obra: ")
         while precio < 0:
             print("Error el precio debe ser mayor que 0")
             precio = Main.ingreso_entero("Precio de la obra: ")
-        obras.append([id_obra, nombre, precio])
-        print(f"La obra {nombre} fue agregada con exito")
+        obras.append({"ID": id_obra, "Nombre": nombre, "Precio": precio})
+        break
 
 
 def modificar_obra():
