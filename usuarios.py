@@ -5,11 +5,11 @@ from reservas import *
 
 
 usuarios = [
-    [1, "Juan Pérez", "juanperez@gmail.com", "12345678"],
-    [2, "Ana Gómez", "anagomez@gmail.com", "87654321"],
-    [3, "Carlos López", "carloslopez@gmail.com", "11223344"],
-    [4, "María Díaz", "mariadiaz@gmail.com", "44332211"],
-    [5, "Luis Fernández", "luisfernandez@gmail.com", "99887766"],
+    [1, "Juan Pérez", "juanperez@gmail.com", "12345678", 25],
+    [2, "Ana Gómez", "anagomez@gmail.com", "87654321", 30],
+    [3, "Carlos López", "carloslopez@gmail.com", "11223344", 28],
+    [4, "María Díaz", "mariadiaz@gmail.com", "44332211", 22],
+    [5, "Luis Fernández", "luisfernandez@gmail.com", "99887766", 35],
 ]
 
 patron_email = re.compile(r'^[\w\.-]+@[\w\.-]+\.\w+$')
