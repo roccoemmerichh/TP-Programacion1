@@ -9,166 +9,173 @@ reservas = [
     [5, 5, 5, 2, "E1,E2",       15000, 30000],
 ]
 
-
 butacas_visuales = [
-    [("A1",), ("A2",), ("A3",), ("A4",), ("A5",), ("A6",), ("A7",), ("A8",)],
-    [("B1",), ("B2",), ("B3",), ("B4",), ("B5",), ("B6",), ("B7",), ("B8",)],
-    [("C1",), ("C2",), ("C3",), ("C4",), ("C5",), ("C6",), ("C7",), ("C8",)],
-    [("D1",), ("D2",), ("D3",), ("D4",), ("D5",), ("D6",), ("D7",), ("D8",)],
-    [("E1",), ("E2",), ("E3",), ("E4",), ("E5",), ("E6",), ("E7",), ("E8",)],
-    [("F1",), ("F2",), ("F3",), ("F4",), ("F5",), ("F6",), ("F7",), ("F8",)],
-    [("G1",), ("G2",), ("G3",), ("G4",), ("G5",), ("G6",), ("G7",), ("G8",)],
-    [("H1",), ("H2",), ("H3",), ("H4",), ("H5",), ("H6",), ("H7",), ("H8",)],
+    [("A1","A2","A3","A4","A5","A6","A7","A8")],
+    [("B1","B2","B3","B4","B5","B6","B7","B8")],
+    [("C1","C2","C3","C4","C5","C6","C7","C8")],
+    [("D1","D2","D3","D4","D5","D6","D7","D8")],
+    [("E1","E2","E3","E4","E5","E6","E7","E8")],
+    [("F1","F2","F3","F4","F5","F6","F7","F8")],
+    [("G1","G2","G3","G4","G5","G6","G7","G8")],
+    [("H1","H2","H3","H4","H5","H6","H7","H8")],
 ]
 
 butacas_estado = [
-#    1    2   3   4   5   6   7   8
-    ["0","0","0","0","0","0","0","0"],  # Fila A
-    ["0","0","0","0","0","0","0","0"],  # Fila B
-    ["0","0","0","0","0","0","0","0"],  # Fila C
-    ["0","0","0","0","0","0","0","0"],  # Fila D
-    ["0","0","0","0","0","0","0","0"],  # Fila E
-    ["0","0","0","0","0","0","0","0"],  # Fila F
-    ["0","0","0","0","0","0","0","0"],  # Fila G
-    ["0","0","0","0","0","0","0","0"],  # Fila H
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
+    ["0","0","0","0","0","0","0","0"],
 ]
+
+def butaca_valida(b: str) -> bool:
+    return re.fullmatch(r"[A-Ha-h][1-8]", b.strip()) is not None
+
+def buscar_pos(butaca: str):
+    pos = None
+    f = 0
+    while f < len(butacas_visuales) and pos is None:
+        fila_tupla = butacas_visuales[f][0]
+        c = 0
+        while c < len(fila_tupla) and pos is None:
+            if fila_tupla[c] == butaca:
+                pos = (f, c)
+            c += 1
+        f += 1
+    return pos
 
 def mostrar_butacas():
     print("\n======================== BUTACAS ============================")
-    for f in range(len(butacas_visuales)):
-        for c in range(len(butacas_visuales[f])):
-            nombre = butacas_visuales[f][c][0]  # saco el string de la tupla
+    print("    " + " ".join([f"{n:>4}" for n in range(1, 9)]))
+    f = 0
+    while f < len(butacas_visuales):
+        fila_letra = chr(ord('A') + f)
+        fila_tupla = butacas_visuales[f][0]
+        celdas = []
+        c = 0
+        while c < len(fila_tupla):
             if butacas_estado[f][c] == "X":
-                print("[X]", end="\t")
+                celdas.append(f"{'[X]':>4}")
             else:
-                print(nombre, end="\t") 
-        print()
+                celdas.append(f"{fila_tupla[c]:>4}")
+            c += 1
+        print(f"{fila_letra} | " + " ".join(celdas))
+        f += 1
 
-def crear_reserva():
-    usuario = int(input("Coloque el id de usuario:"))
-    nr = len(reservas) + 1
-    id_obra = int(input("Id de la obra:"))
-    cant = int(input("Cuantas entradas deseas reservar"))
-    mostrar_butacas(butacas_visuales)
-    butacas_elgidas = []
-    butacas_elgidas = []
-    for i in range(cant):
-        valida = False
-        while not valida:   # repetir hasta que sea valida
-            butaca = input(f"Butaca que desea ({i+1}/{cant}): ").strip().upper()
-
-            encontrada = False
-            f = 0
-            while f < len(butacas_visuales) and not encontrada:
-                c = 0
-                while c < len(butacas_visuales[f]) and not encontrada:
-                    if butacas_visuales[f][c] == butaca:
-                        encontrada = True
-                        if butacas_estado[f][c] == "X":
-                            print("Esa butaca ya está ocupada. Elegí otra.")
-                        else:
-                            butacas_estado[f][c] = "X"
-                            butacas_elgidas.append(butaca)
-                            valida = True
-                    c += 1
-                f += 1
-
-            if not encontrada:
-                print("Esa butaca no existe. Probá de nuevo.")
-
-    butacas_cadena = ",".join(butacas_elgidas) 
-    precio = None
-    encontrado = False 
+def mostrar_reservas(reservas_):
+    encabezados = ["Usuario", "NR", "ID Obra", "Cantidad", "Butacas", "Precio", "Total"]
+    print("\n====================== RESERVAS ============================")
+    print("\t".join(encabezados))
     i = 0
-    while i < len(obras):
-        if obras[i][0] == id_obra:
-            precio = obras[i][3]
-            encontrado = True
+    while i < len(reservas_):
+        r = reservas_[i]
+        fila = [str(r[0]), str(r[1]), str(r[2]), str(r[3]), str(r[4]), str(r[5]), str(r[6])]
+        print("\t".join(fila))
         i += 1
 
-    if not encontrado:
-        print("No se encontró una obra con ese ID.")
-        return
-    print(f"El precio de cada entrada es de {precio}")
-    total = precio * cant
-    print(f"El total a abonar es de {total}")
-
-    reserva = [usuario, nr, id_obra, cant, butacas_cadena, precio, total]
-    reservas.append(reserva)
-
-    print(f"Reserva realizada con existo! El numero de reserva es {nr}")
-
-
-def mostrar_reservas(reservas):
-    encabezados = ["Usuario", "NR", "ID Obra", "Cantidad", "Butacas", "Precio", "Total"]
-    print("======================RESERVAS============================")
-    for encabezado in encabezados:
-        print(encabezado, end="\t")
-    print()
-
-    for reserva in reservas:
-        fila = [
-            (reserva[0]),
-            (reserva[1]),
-            (reserva[2]),
-            (reserva[3]),
-            str(reserva[4]),           
-            (reserva[5]),
-            (reserva[6]),
-        ]
-        for dato in fila:
-            print(dato, end="\t")
-        print()
-
-
 def init_estado_desde_reservas():
-    for reserva in reservas:
-        campo = reserva[4]  
-        butacas_ocupadas = campo.split(",")  
+    f = 0
+    while f < len(butacas_estado):
+        c = 0
+        while c < len(butacas_estado[f]):
+            butacas_estado[f][c] = "0"
+            c += 1
+        f += 1
+    i = 0
+    while i < len(reservas):
+        butacas_str = reservas[i][4]
+        for b in butacas_str.split(","):
+            buscada = b.strip().upper()
+            pos = buscar_pos(buscada)
+            if pos is not None:
+                ff, cc = pos
+                butacas_estado[ff][cc] = "X"
+        i += 1
 
-        for butaca in butacas_ocupadas:
-            butaca = butaca.strip().upper()  # limpio espacios
-            # Buscar la posición en la matriz visual
-            for i in range(len(butacas_visuales)):
-                for j in range(len(butacas_visuales[i])):
-                    if butacas_visuales[i][j] == butaca:
-                        butacas_estado[i][j] = "X"  # marcar ocupada
+def crear_reserva():
+    try:
+        usuario = int(input("Coloque el id de usuario: "))
+    except ValueError:
+        print("ID de usuario inválido.")
+        usuario = -1
+    nr = len(reservas) + 1
+    try:
+        id_obra = int(input("Id de la obra: "))
+    except ValueError:
+        print("ID de obra inválido.")
+        id_obra = -1
+    try:
+        cant = int(input("Cuántas entradas deseas reservar: "))
+    except ValueError:
+        print("Cantidad inválida.")
+        cant = 0
+    mostrar_butacas()
+    butacas_elegidas = []
+    i = 0
+    while i < cant:
+        valida = False
+        while not valida:
+            butaca = input(f"Butaca que desea ({i+1}/{cant}): ").strip().upper()
+            if not butaca_valida(butaca):
+                print("Formato inválido. Usá A-H y 1-8 (ej: C5).")
+            elif butaca in butacas_elegidas:
+                print("Ya elegiste esa butaca en esta reserva. Probá otra.")
+            else:
+                pos = buscar_pos(butaca)
+                if pos is None:
+                    print("Esa butaca no existe. Probá de nuevo.")
+                else:
+                    f, c = pos
+                    if butacas_estado[f][c] == "X":
+                        print("Esa butaca ya está ocupada. Elegí otra.")
+                    else:
+                        butacas_estado[f][c] = "X"
+                        butacas_elegidas.append(butaca)
+                        valida = True
+        i += 1
+    butacas_cadena = ",".join(butacas_elegidas)
+    precio = next((obra[3] for obra in obras if obra[0] == id_obra), None)
+    if precio is None:
+        print("No se encontró una obra con ese ID. No se guardará la reserva.")
+    else:
+        total = precio * cant
+        print(f"El precio de cada entrada es de {precio}")
+        print(f"El total a abonar es de {total}")
+        reserva = [usuario, nr, id_obra, cant, butacas_cadena, precio, total]
+        reservas.append(reserva)
+        print(f"¡Reserva realizada con éxito! El número de reserva es {nr}")
+    mostrar_butacas()
 
 def borrar_reserva():
     mostrar_reservas(reservas)
-    nr = int(input("Ingrese el número de reserva que desea borrar: "))
-
+    try:
+        nr = int(input("Ingrese el número de reserva que desea borrar: "))
+    except ValueError:
+        print("Número inválido.")
+        nr = -1
     indice = None
     i = 0
     while i < len(reservas) and indice is None:
-        if reservas[i][1] == nr:   
+        if reservas[i][1] == nr:
             indice = i
         i += 1
-
     if indice is None:
         print("No se encontró una reserva con ese número.")
-        return
+    else:
+        for b in reservas[indice][4].split(","):
+            buscada = b.strip().upper()
+            pos = buscar_pos(buscada)
+            if pos is not None:
+                f, c = pos
+                butacas_estado[f][c] = "0"
+        reservas.pop(indice)
+        print(f"Reserva {nr} eliminada correctamente. Las butacas fueron liberadas.")
+    mostrar_butacas()
 
-    campo = reservas[indice][4]
-    butacas_ocupadas = campo.split(",")
-
-    # Marcar esas butacas como libres en la matriz de estado
-    for butaca in butacas_ocupadas:
-        butaca = butaca.strip().upper()
-        f = 0
-        while f < len(butacas_visuales):
-            c = 0
-            while c < len(butacas_visuales[f]):
-                if butacas_visuales[f][c] == butaca:
-                    butacas_estado[f][c] = "0"  # liberar
-                c += 1
-            f += 1
-
-    # Eliminar la reserva de la lista
-    reservas.pop(indice)
-    print(f"Reserva {nr} eliminada correctamente. Las butacas fueron liberadas.")
-
-if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
+if __name__ == "__main__":
     mostrar_reservas(reservas)
     init_estado_desde_reservas()
     mostrar_butacas()
