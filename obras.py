@@ -4,13 +4,6 @@ import Main
 #     [ID, Nombre, Precio]
 # ]
 
-# obras = [
-#     [1, "La Traviata", 5000],
-#     [2, "Hamlet", 6500],
-#     [3, "El Lago de los Cisnes", 7000],
-#     [4, "Don Quijote", 5500],
-# ]
-
 
 obras = [
     {"ID": 1, "Nombre": "La Traviata", "Precio": 5000},
@@ -34,16 +27,40 @@ def agregar_obras():
 
 def modificar_obra():
     id_modificar = Main.ingreso_entero("Ingrese el ID de la Obra a modificar: ")
-    encontrada = 0
-    for id_obra in obras:
-        if id_obra[0] == id_modificar:
-            print(f"Función encontrada: Obra {id_obra[1]}, Fecha {id_obra[2]}")
-            nuevoNombre = input("Ingrese el Nombre a modificar: ")
-            nuevoPrecio = input("Nuevo obra: ")
-            if nuevoNombre != "":
-                id_obra[1] = nuevoNombre
-            if nuevoPrecio != "":
-                id_obra[2] = int(nuevoPrecio)
-            print("Obra modificada con exito.")
-            encontrada = 1
-    Main.mostrar_matriz(obras, ("ID", "Nombre", "Precio"))
+    for i in obras:
+        if i["ID"] == id_modificar:
+            print(f'ID: {i["ID"]}, Nombre: "{i["Nombre"]}", Precio: ${i["Precio"]}')
+            nuevo_nombre = input("Ingrese el nuevo nombre: ")
+            nuevo_precio = Main.ingreso_entero("Ingrese el nuevo precio: ")
+            i["Nombre"] = nuevo_nombre
+            i["Precio"] = nuevo_precio
+            return None
+    input("No se a encontrado el ID ingresado presione ENTER para continuar.")
+
+
+def borrar_obra():
+    lista_ids = []
+    for d in obras:
+        lista_ids.append(d["ID"])
+    id_borrar = Main.ingreso_entero("Ingrese el ID de la Obra a borrar: ")
+    if id_borrar in lista_ids:
+        print(
+            f'Esta seguro que quiere eliminar la obra: {obras[id_borrar -1]["Nombre"]}?'
+        )
+        opcion = Main.ingreso_entero("[1] Si\n[0] No\n")
+        if opcion == 1:
+            print("\nLa obra:\n")
+            print(
+                f'ID: {obras[id_borrar -1]["ID"]}, Nombre: "{obras[id_borrar -1]["Nombre"]}", Precio: ${obras[id_borrar -1]["Precio"]}'
+            )
+            print("\nHa sido eliminada\n")
+            input("presione ENTER para continuar.")
+            indice = lista_ids.index(id_borrar)
+            obras.pop(indice)
+            lista_ids.pop(indice)
+            return None
+        elif opcion == 0:
+            print("\nNo se ha eliminado ninguna obra")
+            input("presione ENTER para continuar.")
+            return None
+    print("No se a encontrado el ID ingresado presione ENTER para continuar.")

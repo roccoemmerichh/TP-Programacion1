@@ -21,6 +21,7 @@ def mostrar_matriz(matriz, encabezados="-" * 20):
 
 
 def mostrar_lista_diccionarios(lista):
+    print()
     for clave in lista[0].keys():  # Encabezados
         print(f"{clave:<25}", end="")
     print()
@@ -40,12 +41,13 @@ def limpiar_terminal():
 
 
 def ingreso_entero(mensaje="Ingrese un número entero: "):
+    """Solamente permite ingresar enteros positivos o 0. Devuelve un int."""
     while True:
         valor = input(mensaje)
         if valor.isnumeric():
             return int(valor)
         else:
-            print("Ingreso inválido")
+            print("ERROR: Ingreso inválido, solamente ingresar numeros enteros")
 
 
 # ----------------------------------------------------------------------------------------------
@@ -66,10 +68,10 @@ def main():
             print("-" * 20)
             print("MENÚ PRINCIPAL")
             print("-" * 20)
-            print("1-Gestión de Obras")
-            print("2-Gestión de Funciones")
-            print("3-Gestión de Reservas")
-            print("4-Gestión Usuarios")
+            print("[1] Gestión de Obras")
+            print("[2] Gestión de Funciones")
+            print("[3] Gestión de Reservas")
+            print("[4] Gestión de Usuarios")
             print("-" * 20)
             print("[0] Salir del programa")
             print("-" * 20)
@@ -93,14 +95,15 @@ def main():
         elif opcion == "1":  # MENÚ OBRAS
             while True:
                 while True:
-                    opciones = 3
+                    opciones = 4
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ OBRAS")
                     print("---------------------------")
-                    print("1-Mostrar obras")
-                    print("2-Agregar obras")
-                    print("3-Modificar obras")
+                    print("[1] Mostrar obras")
+                    print("[2] Agregar obra")
+                    print("[3] Modificar obra")
+                    print("[4] Eliminar obra")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -122,13 +125,18 @@ def main():
 
                 elif opcion == "1":  # Opción 1
                     mostrar_lista_diccionarios(obras)
-                    # mostrar_matriz(obras, ("ID", "Nombre", "Precio"))
 
                 elif opcion == "2":  # Opción 2
                     agregar_obras()
+                    mostrar_lista_diccionarios(obras)
 
                 elif opcion == "3":  # Opción 3
                     modificar_obra()
+                    mostrar_lista_diccionarios(obras)
+
+                elif opcion == "4":  # Opción 4
+                    mostrar_lista_diccionarios(obras)
+                    borrar_obra()
 
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:
@@ -138,10 +146,10 @@ def main():
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ FUNCIONES")
                     print("---------------------------")
-                    print("1-Mostrar funciones")
-                    print("2-Agregar funcion")
-                    print("3-Modificar funcion")
-                    print("4-Borrar funcion")
+                    print("[1] Mostrar funciones")
+                    print("[2] Agregar función")
+                    print("[3] Modificar función")
+                    print("[4] Borrar función")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -181,8 +189,8 @@ def main():
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ RESERVAS")
                     print("---------------------------")
-                    print("1-Mostrar reservas")
-                    print("2-Agregar reservas")
+                    print("[1] Mostrar reservas")
+                    print("[2] Agregar reserva")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -227,12 +235,12 @@ def main():
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ USUARIOS")
                     print("---------------------------")
-                    print("1-Mostrar Usuarios")
-                    print("2-Crear Usuario")
-                    print("3-Modificar Usuario")
-                    print("4-Borrar Usuario")
-                    print("5-Mostrar promedio de edad de Usuarios en la funcion")
-                    print("6-Usuarios con mas Reservas")
+                    print("[1] Mostrar Usuarios")
+                    print("[2] Crear Usuario")
+                    print("[3] Modificar Usuario")
+                    print("[4] Borrar Usuario")
+                    print("[5] Mostrar promedio de edad de Usuarios en la funcion")
+                    print("[6] Usuarios con mas Reservas")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
