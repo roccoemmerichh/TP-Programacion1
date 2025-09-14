@@ -22,8 +22,10 @@ def agregar_obras():
         id_obra += 1
     while True:
         nombre = input("Nombre de la obra que desea agregar: ")
+        while nombre == "":
+            nombre = input("No puede quedar vacío, ingrese un nombre: ")
         precio = Main.ingreso_entero("Precio de la obra: ")
-        while precio < 0:
+        while precio == "" or precio <= 0:
             print("Error el precio debe ser mayor que 0")
             precio = Main.ingreso_entero("Precio de la obra: ")
         obras.append({"ID": id_obra, "Nombre": nombre, "Precio": precio})
@@ -36,7 +38,11 @@ def modificar_obra():
         if i["ID"] == id_modificar:
             print(f'ID: {i["ID"]}, Nombre: "{i["Nombre"]}", Precio: ${i["Precio"]}')
             nuevo_nombre = input("Ingrese el nuevo nombre: ")
+            if nuevo_nombre == "":
+                nuevo_nombre = i["Nombre"]
             nuevo_precio = Main.ingreso_entero("Ingrese el nuevo precio: ")
+            if nuevo_precio == "":
+                nuevo_precio = i["Precio"]
             i["Nombre"] = nuevo_nombre
             i["Precio"] = nuevo_precio
             return None
