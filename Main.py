@@ -1,56 +1,47 @@
 import time, os
-
 from obras import *
 from funciones import *
 from reservas import *
 from usuarios import *
 
-
-# TODO Mejorar para que se ajuste automaticamente cada columna
 def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
-    for titulo in encabezados:  # Encabezados
+    for titulo in encabezados: 
         print(f"{titulo:<25}", end="")
     print()
-    for fila in matriz:  # Contenido
+    for fila in matriz:
         for dato in fila:
             print(f"{dato:<25}", end="")
         print()
     print()
     input("Presione ENTER para continuar")
 
-
 def mostrar_lista_diccionarios(lista):
     print()
-    for clave in lista[0].keys():  # Encabezados
+    for clave in lista[0].keys():  
         print(f"{clave:<25}", end="")
     print()
-    for diccionario in lista:  # Contenido
+    for diccionario in lista: 
         for dato in diccionario:
             print(f"{diccionario[dato]:<25}", end="")
         print()
     print()
     input("Presione ENTER para continuar")
 
-
 def limpiar_terminal():
     if os.name == "nt":
-        os.system("cls")  # Windows
+        os.system("cls")  
     else:
-        os.system("clear")  # Mac/Linux
-
+        os.system("clear")  
 
 def ingreso_entero(mensaje="Ingrese un número entero: "):
-    """Solamente permite ingresar enteros positivos o 0. Devuelve un int o un string vacío."""
+    """Solamente permite ingresar enteros positivos o 0. Devuelve un int."""
     while True:
         valor = input(mensaje)
         if valor.isnumeric():
             return int(valor)
-        elif valor == "":
-            return ""
         else:
             print("ERROR: Ingreso inválido, solamente ingresar numeros enteros")
-
 
 # ----------------------------------------------------------------------------------------------
 # CUERPO PRINCIPAL
@@ -82,17 +73,17 @@ def main():
             opcion = input("Seleccione una opción: ")
             if opcion in [
                 str(i) for i in range(0, opciones + 1)
-            ]:  # Sólo continua si se elije una opcion de menú válida
+            ]:
                 break
             else:
                 input("Opción inválida. Presione ENTER para volver a seleccionar.")
         print()
 
-        if opcion == "0":  # Opción salir del programa
+        if opcion == "0":  
             print("Gracias por usar el sistema")
             time.sleep(2)
             limpiar_terminal()
-            exit()  # También puede ser sys.exit() para lo cual hay que importar el módulo sys
+            exit() 
 
         elif opcion == "1":  # MENÚ OBRAS
             while True:
@@ -129,12 +120,10 @@ def main():
                     mostrar_lista_diccionarios(obras)
 
                 elif opcion == "2":  # Opción 2
-                    mostrar_lista_diccionarios(obras)
                     agregar_obras()
                     mostrar_lista_diccionarios(obras)
 
                 elif opcion == "3":  # Opción 3
-                    mostrar_lista_diccionarios(obras)
                     modificar_obra()
                     mostrar_lista_diccionarios(obras)
 
@@ -188,13 +177,17 @@ def main():
         elif opcion == "3":  # MENÚ RESERVAS
             while True:
                 while True:
-                    opciones = 3
+                    opciones = 4
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ RESERVAS")
                     print("---------------------------")
                     print("[1] Mostrar reservas")
                     print("[2] Agregar reserva")
+                    print("[3] Modificar reserva")
+                    print("[4] Borrar reserva")
+
+
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -230,7 +223,11 @@ def main():
 
                 elif opcion == "2":  # Opción 2
                     crear_reserva()
-
+                elif opcion == "3":  # Opción 2
+                    modificar_reserva()
+                elif opcion == "4":  # Opción 2
+                    borrar_reserva()
+                
         elif opcion == "4":  # MENÚ USUARIOS
             while True:
                 while True:
@@ -240,7 +237,7 @@ def main():
                     print("MENÚ PRINCIPAL > MENÚ USUARIOS")
                     print("---------------------------")
                     print("[1] Mostrar Usuarios")
-                    print("[2] Crear Usuario")
+                    print("[2] Agregar Usuario")
                     print("[3] Modificar Usuario")
                     print("[4] Borrar Usuario")
                     print("[5] Mostrar promedio de edad de Usuarios en la funcion")
@@ -261,7 +258,7 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  # Opción salir del submenú
+                if opcion == "0":  # Opcion salir del submenú
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
@@ -287,7 +284,8 @@ def main():
         input("\nPresione ENTER para volver al menú.")
         print("\n\n")
 
-
-if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
+if __name__ == "__main__":
     main()
+
+
 
