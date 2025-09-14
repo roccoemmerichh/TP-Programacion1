@@ -264,7 +264,7 @@ def main():
 
                 elif opcion == "1":  # Opción 1
                     mostrar_matriz(
-                        usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono")
+                        usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono","Edad")
                     )
 
                 elif opcion == "2":  # Opción 2
@@ -288,3 +288,4 @@ def main():
 
 if __name__ == "__main__":  # Para no ejecutar funciones al importar modulos
     main()
+
