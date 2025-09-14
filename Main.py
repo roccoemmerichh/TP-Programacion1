@@ -127,10 +127,12 @@ def main():
                     mostrar_lista_diccionarios(obras)
 
                 elif opcion == "2":  # Opción 2
+                    mostrar_lista_diccionarios(obras)
                     agregar_obras()
                     mostrar_lista_diccionarios(obras)
 
                 elif opcion == "3":  # Opción 3
+                    mostrar_lista_diccionarios(obras)
                     modificar_obra()
                     mostrar_lista_diccionarios(obras)
 

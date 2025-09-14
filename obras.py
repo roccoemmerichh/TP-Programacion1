@@ -14,7 +14,12 @@ obras = [
 
 
 def agregar_obras():
-    id_obra = len(obras) + 1
+    lista_ids = []
+    for i in obras:
+        lista_ids.append(i["ID"])
+    id_obra = 1
+    while id_obra in lista_ids:
+        id_obra += 1
     while True:
         nombre = input("Nombre de la obra que desea agregar: ")
         precio = Main.ingreso_entero("Precio de la obra: ")
@@ -40,8 +45,8 @@ def modificar_obra():
 
 def borrar_obra():
     lista_ids = []
-    for d in obras:
-        lista_ids.append(d["ID"])
+    for i in obras:
+        lista_ids.append(i["ID"])
     id_borrar = Main.ingreso_entero("Ingrese el ID de la Obra a borrar: ")
     if id_borrar in lista_ids:
         print(
