@@ -1,8 +1,5 @@
 import Main
-
-# funciones = [
-#     [ID Función, ID Obra, Fecha]
-# ]
+import re
 
 funciones = [
     [1, 1, "2025-08-15"],
@@ -12,13 +9,25 @@ funciones = [
     [5, 5, "2025-09-18"],
 ]
 
-
 def crear_funcion():
-    id_obra = int(input("ingrese el ID de la obra"))
-    id_funcion = funciones[-1][0] + 1
-    fecha = str(input("Ingrese la fecha: "))
-    funciones.append([id_funcion, id_obra, fecha])
+    Main.mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
 
+    id_obra = int(input("Ingrese el ID de la obra: "))
+    id_funcion = funciones[-1][0] + 1 if len(funciones) > 0 else 1
+
+    fecha_valida = False
+    fecha = ""
+    while fecha_valida == False:
+        fecha = input("Ingrese la fecha (YYYY-MM-DD): ").strip()
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", fecha):
+            fecha_valida = True
+        else:
+            print("❌ Formato inválido. Use YYYY-MM-DD (ejemplo: 2025-09-18).")
+
+    funciones.append([id_funcion, id_obra, fecha])
+    print("✅ Función creada con éxito.")
+
+    Main.mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
 
 def modificar_funcion():
     id_modificar = int(input("Ingrese el ID de la funcion a modificar: "))
@@ -27,7 +36,7 @@ def modificar_funcion():
         if id_funcion[0] == id_modificar:
             print(f"Función encontrada: Obra {id_funcion[1]}, Fecha {id_funcion[2]}")
             nuevaFecha = input("Ingrese la fecha nueva: ")
-            nuevaObra = input("Ingrese el nuevo ID: ")
+            nuevaObra = input("Ingrese nuevo ID: ")
             if nuevaFecha != "":
                 id_funcion[2] = nuevaFecha
             if nuevaObra != "":
@@ -39,7 +48,6 @@ def modificar_funcion():
         print("Función no encontrada")
     Main.mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
 
-
 def borrar_funcion():
     id_borrar = int(input("Ingrese el ID de la funcion a borrar: "))
     encontrado = False
@@ -50,5 +58,3 @@ def borrar_funcion():
             encontrado = True
     if not encontrado:
         print("Usuario no encontrado.")
-
-# commit de prueba 2025-09-12T14:08:18.3184104-03:00
