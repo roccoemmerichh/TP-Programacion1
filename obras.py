@@ -6,11 +6,12 @@ import Main
 
 
 obras = [
-    {"ID": 1, "Nombre": "La Traviata", "Precio": 5000},
-    {"ID": 2, "Nombre": "Hamlet", "Precio": 6500},
-    {"ID": 3, "Nombre": "El Lago de los Cisnes", "Precio": 7000},
-    {"ID": 4, "Nombre": "Don Quijote", "Precio": 5500},
+    {"ID": 1, "Nombre": "La Traviata", "Precio": 5000, "Usuarios": set()},
+    {"ID": 2, "Nombre": "Hamlet", "Precio": 6500, "Usuarios": set()},
+    {"ID": 3, "Nombre": "El Lago de los Cisnes", "Precio": 7000, "Usuarios": set()},
+    {"ID": 4, "Nombre": "Don Quijote", "Precio": 5500, "Usuarios": set()},
 ]
+
 
 
 def agregar_obras():
