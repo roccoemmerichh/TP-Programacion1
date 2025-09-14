@@ -137,7 +137,10 @@ def crear_reserva():
                         valida = True
         i += 1
     butacas_cadena = ",".join(butacas_elegidas)
-    precio = next((obra[3] for obra in obras if obra[0] == id_obra), None)
+
+    #Buscar el precio de la obra
+    precio = next((obra["Precio"] for obra in obras if obra["ID"] == id_obra), None)
+
     if precio is None:
         print("No se encontró una obra con ese ID. No se guardará la reserva.")
     else:
@@ -146,6 +149,12 @@ def crear_reserva():
         print(f"El total a abonar es de {total}")
         reserva = [usuario, nr, id_obra, cant, butacas_cadena, precio, total]
         reservas.append(reserva)
+
+        #registrar usuario en el conjunto de la obra
+        for obra in obras:
+            if obra["ID"] == id_obra:
+                obra["Usuarios"].add(usuario)
+
         print(f"¡Reserva realizada con éxito! El número de reserva es {nr}")
     mostrar_butacas()
 
