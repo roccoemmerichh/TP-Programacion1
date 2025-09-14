@@ -54,7 +54,7 @@ def borrar_funcion():
     for id_funcion in funciones:
         if id_funcion[0] == id_borrar:
             funciones.remove(id_funcion)
-            print(f"Usuario {id_funcion[1]} fue eliminado.")
+            print(f"La funcion {id_funcion[1]} fue eliminada.")
             encontrado = True
     if not encontrado:
-        print("Usuario no encontrado.")
+        print("Funcion no encontrada.")

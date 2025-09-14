@@ -8,62 +8,90 @@ obras = [
 ]
 
 def agregar_obras():
-    id_obra = 1
-    bandera = 1
-    while bandera == 1:
-        bandera = 0
-        for obra in obras:
-            if obra["ID"] == id_obra:
-                id_obra += 1
-                bandera = 1
+    if len(obras) == 0:
+        nuevo_id = 1
+    else:
+        nuevo_id = max(o["ID"] for o in obras) + 1
 
-    nombre = input("Nombre de la obra que desea agregar: ")
+    nombre = input("Nombre de la obra: ").strip()
     while nombre == "":
-        nombre = input("No puede quedar vacío, ingrese un nombre: ")
+        nombre = input("El nombre no puede estar vacío: ").strip()
 
-    precio = Main.ingreso_entero("Precio de la obra: ")
-    while precio == "" or precio <= 0:
-        print("Error el precio debe ser mayor que 0")
-        precio = Main.ingreso_entero("Precio de la obra: ")
+    precio = input("Precio de la obra: ").strip()
+    while not precio.isnumeric() or int(precio) <= 0:
+        precio = input("Precio inválido. Ingrese un número mayor a 0: ").strip()
 
-    obras.append({"ID": id_obra, "Nombre": nombre, "Precio": precio})
+    precio = int(precio)
+
+    obras.append({"ID": nuevo_id, "Nombre": nombre, "Precio": precio})
+    print(f"✅ Obra agregada: ID {nuevo_id} - {nombre} - ${precio}")
+    input("Presione ENTER para continuar.")
 
 def modificar_obra():
-    id_modificar = Main.ingreso_entero("Ingrese el ID de la Obra a modificar: ")
-    encontrada = 0
-    for i in obras:
-        if i["ID"] == id_modificar:
-            print(f'ID: {i["ID"]}, Nombre: "{i["Nombre"]}", Precio: ${i["Precio"]}')
-            nuevo_nombre = input("Ingrese el nuevo nombre: ")
-            if nuevo_nombre == "":
-                nuevo_nombre = i["Nombre"]
-            nuevo_precio = Main.ingreso_entero("Ingrese el nuevo precio: ")
-            if nuevo_precio == "":
-                nuevo_precio = i["Precio"]
-            i["Nombre"] = nuevo_nombre
-            i["Precio"] = nuevo_precio
-            encontrada = 1
-    if encontrada == 0:
-        input("No se encontró el ID ingresado. Presione ENTER para continuar.")
+    if len(obras) == 0:
+        print("No hay obras para modificar.")
+        input("Presione ENTER para continuar.")
+        return
+
+    print("\nObras actuales:")
+    for o in obras:
+        print(f'{o["ID"]} - {o["Nombre"]} - ${o["Precio"]}')
+
+    id_mod = input("Ingrese el ID de la obra a modificar: ").strip()
+    while not id_mod.isnumeric():
+        id_mod = input("ID inválido. Ingrese un número: ").strip()
+    id_mod = int(id_mod)
+
+    obra = None
+    for o in obras:
+        if o["ID"] == id_mod:
+            obra = o
+            break
+
+    if obra is None:
+        print("No se encontró una obra con ese ID.")
+        input("Presione ENTER para continuar.")
+        return
+
+    nuevo_nombre = input(f"Nuevo nombre (ENTER para dejar '{obra['Nombre']}'): ").strip()
+    if nuevo_nombre != "":
+        obra["Nombre"] = nuevo_nombre
+
+    nuevo_precio = input(f"Nuevo precio (ENTER para dejar ${obra['Precio']}): ").strip()
+    if nuevo_precio != "":
+        if nuevo_precio.isnumeric() and int(nuevo_precio) > 0:
+            obra["Precio"] = int(nuevo_precio)
+        else:
+            print("Precio inválido. Se mantiene el anterior.")
+
+    print(f"✅ Obra modificada: {obra}")
+    input("Presione ENTER para continuar.")
 
 def borrar_obra():
-    id_borrar = Main.ingreso_entero("Ingrese el ID de la Obra a borrar: ")
-    encontrada = 0
-    i = 0
-    while i < len(obras):
-        if obras[i]["ID"] == id_borrar:
-            print(f'¿Está seguro que quiere eliminar la obra: {obras[i]["Nombre"]}?')
-            opcion = Main.ingreso_entero("[1] Sí\n[0] No\n")
-            if opcion == 1:
-                print("\nLa obra:\n")
-                print(f'ID: {obras[i]["ID"]}, Nombre: "{obras[i]["Nombre"]}", Precio: ${obras[i]["Precio"]}')
-                print("\nHa sido eliminada\n")
-                input("Presione ENTER para continuar.")
+    if len(obras) == 0:
+        print("No hay obras para borrar.")
+        input("Presione ENTER para continuar.")
+        return
+
+    print("\nObras actuales:")
+    for o in obras:
+        print(f'{o["ID"]} - {o["Nombre"]} - ${o["Precio"]}')
+
+    id_borrar = input("Ingrese el ID de la obra a borrar: ").strip()
+    while not id_borrar.isnumeric():
+        id_borrar = input("ID inválido. Ingrese un número: ").strip()
+    id_borrar = int(id_borrar)
+
+    for i, o in enumerate(obras):
+        if o["ID"] == id_borrar:
+            confirmacion = input(f'¿Seguro que quiere borrar "{o["Nombre"]}"? (s/n): ').strip().lower()
+            if confirmacion == "s":
                 obras.pop(i)
+                print("✅ Obra eliminada.")
             else:
-                print("\nNo se ha eliminado ninguna obra")
-                input("Presione ENTER para continuar.")
-            encontrada = 1
-        i += 1
-    if encontrada == 0:
-        input("No se encontró el ID ingresado. Presione ENTER para continuar.")
+                print("No se eliminó ninguna obra.")
+            input("Presione ENTER para continuar.")
+            return
+
+    print("No se encontró una obra con ese ID.")
+    input("Presione ENTER para continuar.")

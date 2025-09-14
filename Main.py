@@ -117,18 +117,18 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    mostrar_lista_diccionarios(obras)
+                    mostrar_lista_diccionarios(obras.obras)
 
                 elif opcion == "2":  # Opción 2
                     agregar_obras()
-                    mostrar_lista_diccionarios(obras)
+                    mostrar_lista_diccionarios(obras.obras)
 
                 elif opcion == "3":  # Opción 3
                     modificar_obra()
-                    mostrar_lista_diccionarios(obras)
+                    mostrar_lista_diccionarios(obras.obras)
 
                 elif opcion == "4":  # Opción 4
-                    mostrar_lista_diccionarios(obras)
+                    mostrar_lista_diccionarios(obras.obras)
                     borrar_obra()
 
         elif opcion == "2":  # MENÚ FUNCIONES
