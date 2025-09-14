@@ -97,12 +97,13 @@ promedio = lambda lista: sum(lista) / len(lista) if lista else 0
 
 def promedio_edad_por_funcion():
     for funcion in funciones:
-        id_funcion = funcion[1]
+        id_funcion = funcion[0]     
+        id_obra = funcion[1]         
         nombre_funcion = f"Función {id_funcion} - {funcion[2]}"
 
         edades = []
         for reserva in reservas:
-            if reserva[1] == id_funcion:
+            if reserva[2] == id_obra:    
                 for usuario in usuarios:
                     if usuario[0] == reserva[0]:
                         edades.append(usuario[4])
