@@ -16,7 +16,7 @@ funciones = [
 def crear_funcion():
     id_obra = int(input("ingrese el ID de la obra"))
     id_funcion = funciones[-1][0] + 1
-    fecha = str(input("Ingrese la fecha"))
+    fecha = str(input("Ingrese la fecha: "))
     funciones.append([id_funcion, id_obra, fecha])
 
 
@@ -26,8 +26,8 @@ def modificar_funcion():
     for id_funcion in funciones:
         if id_funcion[0] == id_modificar:
             print(f"Función encontrada: Obra {id_funcion[1]}, Fecha {id_funcion[2]}")
-            nuevaFecha = input("Ingrese la fecha nueva:")
-            nuevaObra = input("Nuevo obra: ")
+            nuevaFecha = input("Ingrese la fecha nueva: ")
+            nuevaObra = input("Ingrese el nuevo ID: ")
             if nuevaFecha != "":
                 id_funcion[2] = nuevaFecha
             if nuevaObra != "":
