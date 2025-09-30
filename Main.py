@@ -37,11 +37,17 @@ def limpiar_terminal():
 def ingreso_entero(mensaje="Ingrese un número entero: "):
     """Solamente permite ingresar enteros positivos o 0. Devuelve un int."""
     while True:
-        valor = input(mensaje)
-        if valor.isnumeric():
-            return int(valor)
-        else:
-            print("ERROR: Ingreso inválido, solamente ingresar numeros enteros")
+        try:
+            valor_ingresado = float(input(mensaje))
+            valor_entero = int(valor_ingresado)
+            if not valor_ingresado == valor_entero or valor_entero > 0:
+                raise ValueError
+            break
+        except ValueError:
+            print("Error: Ingreso inválido, solamente ingresar numeros enteros positivos")
+        except:
+            print("Error inesperado")
+    return valor
 
 # ----------------------------------------------------------------------------------------------
 # CUERPO PRINCIPAL
