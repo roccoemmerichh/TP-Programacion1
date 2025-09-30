@@ -4,9 +4,10 @@ from funciones import *
 from reservas import *
 from usuarios import *
 
+
 def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
-    for titulo in encabezados: 
+    for titulo in encabezados:
         print(f"{titulo:<25}", end="")
     print()
     for fila in matriz:
@@ -16,23 +17,26 @@ def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
     input("Presione ENTER para continuar")
 
+
 def mostrar_lista_diccionarios(lista):
     print()
-    for clave in lista[0].keys():  
+    for clave in lista[0].keys():
         print(f"{clave:<25}", end="")
     print()
-    for diccionario in lista: 
+    for diccionario in lista:
         for dato in diccionario:
             print(f"{diccionario[dato]:<25}", end="")
         print()
     print()
     input("Presione ENTER para continuar")
 
+
 def limpiar_terminal():
     if os.name == "nt":
-        os.system("cls")  
+        os.system("cls")
     else:
-        os.system("clear")  
+        os.system("clear")
+
 
 def ingreso_entero(mensaje="Ingrese un número entero: "):
     """Solamente permite ingresar enteros positivos o 0. Devuelve un int."""
@@ -40,14 +44,19 @@ def ingreso_entero(mensaje="Ingrese un número entero: "):
         try:
             valor_ingresado = float(input(mensaje))
             valor_entero = int(valor_ingresado)
-            if not valor_ingresado == valor_entero or valor_entero > 0:
+            if valor_entero != valor_ingresado or valor_entero < 0:
                 raise ValueError
             break
         except ValueError:
-            print("Error: Ingreso inválido, solamente ingresar numeros enteros positivos")
+            print(
+                "Error: Ingreso inválido, solamente ingresar numeros enteros positivos"
+            )
+        except KeyboardInterrupt:
+            exit()
         except:
             print("Error inesperado")
-    return valor
+    return valor_entero
+
 
 # ----------------------------------------------------------------------------------------------
 # CUERPO PRINCIPAL
@@ -77,19 +86,17 @@ def main():
             print()
 
             opcion = input("Seleccione una opción: ")
-            if opcion in [
-                str(i) for i in range(0, opciones + 1)
-            ]:
+            if opcion in [str(i) for i in range(0, opciones + 1)]:
                 break
             else:
                 input("Opción inválida. Presione ENTER para volver a seleccionar.")
         print()
 
-        if opcion == "0":  
+        if opcion == "0":
             print("Gracias por usar el sistema")
             time.sleep(2)
             limpiar_terminal()
-            exit() 
+            exit()
 
         elif opcion == "1":  # MENÚ OBRAS
             while True:
@@ -192,8 +199,6 @@ def main():
                     print("[2] Agregar reserva")
                     print("[3] Modificar reserva")
                     print("[4] Borrar reserva")
-
-
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -233,7 +238,7 @@ def main():
                     modificar_reserva()
                 elif opcion == "4":  # Opción 2
                     borrar_reserva()
-                
+
         elif opcion == "4":  # MENÚ USUARIOS
             while True:
                 while True:
@@ -269,7 +274,7 @@ def main():
 
                 elif opcion == "1":  # Opción 1
                     mostrar_matriz(
-                        usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono","Edad")
+                        usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono", "Edad")
                     )
 
                 elif opcion == "2":  # Opción 2
@@ -290,8 +295,6 @@ def main():
         input("\nPresione ENTER para volver al menú.")
         print("\n\n")
 
+
 if __name__ == "__main__":
     main()
-
-
-
