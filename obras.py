@@ -32,39 +32,52 @@ def modificar_obra():
         print("No hay obras para modificar.")
         input("Presione ENTER para continuar.")
         return
-
     print("\nObras actuales:")
     for o in obras:
         print(f'{o["ID"]} - {o["Nombre"]} - ${o["Precio"]}')
-
     id_mod = input("Ingrese el ID de la obra a modificar: ").strip()
     while not id_mod.isnumeric():
         id_mod = input("ID inválido. Ingrese un número: ").strip()
     id_mod = int(id_mod)
-
     obra = None
     for o in obras:
         if o["ID"] == id_mod:
             obra = o
             break
-
     if obra is None:
         print("No se encontró una obra con ese ID.")
         input("Presione ENTER para continuar.")
         return
-
     nuevo_nombre = input(f"Nuevo nombre (ENTER para dejar '{obra['Nombre']}'): ").strip()
     if nuevo_nombre != "":
         obra["Nombre"] = nuevo_nombre
+    while True:
+      entrada = input(f"Desea modificar el precio? (ENTER para dejar ${obra['Precio']}): ").strip()
+      if entrada == "":
+          print("Se mantiene el precio actual.")
+          break
+      try:
 
-    nuevo_precio = input(f"Nuevo precio (ENTER para dejar ${obra['Precio']}): ").strip()
-    if nuevo_precio != "":
-        if nuevo_precio.isnumeric() and int(nuevo_precio) > 0:
-            obra["Precio"] = int(nuevo_precio)
-        else:
-            print("Precio inválido. Se mantiene el anterior.")
+          nuevo_precio = int(entrada)
+
+          if nuevo_precio > 0:
+
+              obra["Precio"] = nuevo_precio
+
+              break
+
+          else:
+
+              print("El precio debe ser mayor a 0.")
+
+      except ValueError:
+
+          print("Precio inválido. Ingrese un número entero mayor a 0.")
+
+ 
 
     print(f"✅ Obra modificada: {obra}")
+
     input("Presione ENTER para continuar.")
 
 def borrar_obra():
