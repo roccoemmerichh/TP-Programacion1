@@ -85,7 +85,7 @@ def usuarios_con_mas_reservas():
         if conteo_reservas.get(usuario[0], 0) == max_reservas:
             print(f"- {usuario[1]} ({max_reservas} reservas)")
 
-promedio = lambda lista: sum(lista) / len(lista) if lista else 0
+promedio = lambda lista: sum(lista) / len(lista)
 def promedio_edad_por_funcion():
     for funcion in funciones:
         id_funcion = funcion[0]     
@@ -98,7 +98,9 @@ def promedio_edad_por_funcion():
                 for usuario in usuarios:
                     if usuario[0] == reserva[0]:
                         edades.append(usuario[4])
-        if edades:
-            print(f"{nombre_funcion}: promedio de edad = {promedio(edades):.2f} años")
+        try:
+            prom = promedio(edades)
+        except ZeroDivisionError:
+            print(f"{nombre_funcion}: no se puede calcular el promedio (no hay reservas registradas)")
         else:
-            print(f"{nombre_funcion}: sin reservas registradas")
+            print(f"{nombre_funcion}: promedio de edad = {prom:.2f} años")
