@@ -1,0 +1,22 @@
+[
+    {
+        "ID": 1,
+        "Nombre": "La Traviata",
+        "Precio": 5000
+    },
+    {
+        "ID": 2,
+        "Nombre": "Hamlet",
+        "Precio": 6500
+    },
+    {
+        "ID": 3,
+        "Nombre": "El Lago de los Cisnes",
+        "Precio": 7000
+    },
+    {
+        "ID": 4,
+        "Nombre": "Don Quijote",
+        "Precio": 5500
+    }
+]

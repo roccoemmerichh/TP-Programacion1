@@ -1,33 +1,43 @@
-import Main
+import json, Main
 
-obras = [
-    {"ID": 1, "Nombre": "La Traviata", "Precio": 5000},
-    {"ID": 2, "Nombre": "Hamlet", "Precio": 6500},
-    {"ID": 3, "Nombre": "El Lago de los Cisnes", "Precio": 7000},
-    {"ID": 4, "Nombre": "Don Quijote", "Precio": 5500},
-]
 
-def agregar_obras():
-    if len(obras) == 0:
-        nuevo_id = 1
-    else:
-        nuevo_id = max(o["ID"] for o in obras) + 1
+def agregar_obras(archivo):
+    try:
+        with open(archivo, 'r', encoding="UTF-8") as datos:
+            obras = json.load(datos)
 
-    nombre = input("Nombre de la obra: ").strip()
-    while nombre == "":
-        nombre = input("El nombre no puede estar vacío: ").strip()
 
-    precio = input("Precio de la obra: ").strip()
-    while not precio.isnumeric() or int(precio) <= 0:
-        precio = input("Precio inválido. Ingrese un número mayor a 0: ").strip()
+            if len(obras) == 0:
+                nuevo_id = 1
+            else:
+                nuevo_id = max(obra["ID"] for obra in obras) + 1
 
-    precio = int(precio)
+            nombre = input("Nombre de la obra: ").strip().capitalize()
+            while nombre == "":
+                nombre = input("El nombre no puede estar vacío: ").strip().capitalize()
 
-    obras.append({"ID": nuevo_id, "Nombre": nombre, "Precio": precio})
-    print(f"✅ Obra agregada: ID {nuevo_id} - {nombre} - ${precio}")
-    input("Presione ENTER para continuar.")
+            precio = input("Precio de la obra: ").strip()
+            while not precio.isnumeric() or int(precio) <= 0:
+                precio = input("Precio inválido. Ingrese un número mayor a 0: ").strip()
 
-def modificar_obra():
+            precio = int(precio)
+
+            nueva_obra = {
+                "ID": nuevo_id,
+                "Nombre": nombre,
+                "Precio": precio
+            }
+            obras.append(nueva_obra)
+
+            with open(archivo, 'w', encoding="UTF-8") as datos:
+                json.dump(obras, datos, ensure_ascii=False)
+            print(f"✅ Obra agregada: ID {nuevo_id} - {nombre} - ${precio}")
+            input("Presione ENTER para continuar.")
+
+    except (FileNotFoundError, OSError) as error:
+        print(f'Error! {error}')
+
+def modificar_obra(obras):
     if len(obras) == 0:
         print("No hay obras para modificar.")
         input("Presione ENTER para continuar.")
@@ -80,7 +90,7 @@ def modificar_obra():
 
     input("Presione ENTER para continuar.")
 
-def borrar_obra():
+def borrar_obra(obras):
     if len(obras) == 0:
         print("No hay obras para borrar.")
         input("Presione ENTER para continuar.")
