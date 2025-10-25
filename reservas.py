@@ -256,7 +256,7 @@ def modificar_reserva():
         reserva[3] = cantidad_real
         reserva[6] = reserva[5] * cantidad_real
 
-    print("✅ Reserva modificada con éxito:")
+    print("Reserva modificada.")
     print("Usuario:", reserva[0], "NR:", reserva[1], "ID Obra:", reserva[2],
           "Cantidad:", reserva[3], "Butacas:", reserva[4],
           "Precio:", reserva[5], "Total:", reserva[6])

@@ -22,10 +22,10 @@ def crear_funcion():
         if re.match(r"^\d{4}-\d{2}-\d{2}$", fecha):
             fecha_valida = True
         else:
-            print("❌ Formato inválido. Use YYYY-MM-DD (ejemplo: 2025-09-18).")
+            print("Formato inválido. Use YYYY-MM-DD (ejemplo: 2025-09-18).")
 
     funciones.append([id_funcion, id_obra, fecha])
-    print("✅ Función creada con éxito.")
+    print("Función creada con éxito.")
 
     Main.mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
 

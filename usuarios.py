@@ -20,20 +20,20 @@ def crear_usuario():
     
     email = input("Email del usuario: ")
     while not patron_email.match(email):
-        print("❌ Email inválido. Ejemplo válido: usuario@dominio.com")
+        print("Email inválido. Ejemplo válido: usuario@dominio.com")
         email = input("Email del usuario: ")
 
 
     telefono = input("Teléfono del usuario (8 a 12 dígitos): ")
     while not patron_telefono.match(telefono):
-        print("❌ Teléfono inválido. Solo números (8-12 dígitos).")
+        print("Teléfono inválido. Solo números (8-12 dígitos).")
         telefono = input("Teléfono del usuario: ")
 
     edad = int(input("Edad del usuario: "))
 
     usuario = [id_usuario, nombre, email, telefono, edad]
     usuarios.append(usuario)
-    print(f"✅ Usuario {nombre} creado con éxito (ID: {id_usuario})")
+    print(f"Usuario {nombre} creado con éxito (ID: {id_usuario})")
 
 def modificar_usuario():
     id_modificar = int(input("Ingrese el ID del usuario a modificar: "))

@@ -26,7 +26,7 @@ def agregar_obras(archivo):
 
             with open(archivo, "w", encoding="UTF-8") as datos:
                 json.dump(obras, datos, ensure_ascii=False)
-            print(f"✅ Obra agregada: ID {nuevo_id} - {nombre} - ${precio}")
+            print(f"Obra agregada: ID {nuevo_id} - {nombre} - ${precio}")
             input("Presione ENTER para continuar.")
 
     except (FileNotFoundError, OSError) as error:
@@ -82,7 +82,7 @@ def modificar_obra(archivo):
 
         with open(archivo, "w", encoding="UTF-8") as datos:
             json.dump(obras, datos, ensure_ascii=False, indent=4)
-        print(f"✅ Obra modificada: {obra}")
+        print(f"Obra modificada: {obra}")
         input("Presione ENTER para continuar.")
 
     except (FileNotFoundError, OSError) as error:
@@ -117,7 +117,7 @@ def borrar_obra(archivo):
                 )
                 if confirmacion == "s":
                     obras.pop(i)
-                    print("✅ Obra eliminada.")
+                    print("Obra eliminada.")
                 else:
                     print("No se eliminó ninguna obra.")
                 input("Presione ENTER para continuar.")
