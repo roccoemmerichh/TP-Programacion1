@@ -79,11 +79,15 @@ def usuarios_con_mas_reservas():
         return
 
     max_reservas = max(conteo_reservas.values())
+    usuarios_max = set()
 
     print("\nUsuarios con más reservas:")
     for usuario in usuarios:
         if conteo_reservas.get(usuario[0], 0) == max_reservas:
-            print(f"- {usuario[1]} ({max_reservas} reservas)")
+            usuarios_max.add(usuario[1])
+            print("\nUsuarios con mas reservas:")
+            for nombre in usuarios_max:
+                print(f"-{nombre} ({max_reservas}reservas)")
 
 promedio = lambda lista: sum(lista) / len(lista)
 def promedio_edad_por_funcion():
