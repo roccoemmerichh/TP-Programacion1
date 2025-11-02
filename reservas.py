@@ -1,14 +1,9 @@
 import obras
 import re
 import Main
+import json
 
-reservas = [
-    [1, 1, 1, 2, "A1,A2",       12000, 24000],
-    [2, 2, 2, 4, "B1,B2,B3,B4", 12000, 48000],
-    [3, 3, 3, 3, "C1,C2,C3",    20000, 60000],
-    [4, 4, 4, 1, "D1",          15000, 15000],
-    [5, 5, 5, 2, "E1,E2",       15000, 30000],
-]
+ARCHIVO_RESERVAS = "archivos/reservas.txt"
 
 butacas_visuales = [
     [("A1","A2","A3","A4","A5","A6","A7","A8")],
@@ -32,6 +27,50 @@ butacas_estado = [
     ["0","0","0","0","0","0","0","0"],
 ]
 
+
+def leer_reservas():
+    """
+    Lee el archivo reservas.txt y devuelve una lista de listas.
+    """
+    reservas = []
+    try:
+        with open(ARCHIVO_RESERVAS, 'r', encoding='utf-8') as f:
+            for linea in f:
+                linea = linea.strip()
+                if linea:
+                    try:
+                        partes = linea.split(';')
+
+                        reserva = [
+                            int(partes[0]),  
+                            int(partes[1]),  
+                            int(partes[2]),   
+                            int(partes[3]),   
+                            partes[4],       
+                            int(partes[5]),   
+                            int(partes[6])    
+                        ]
+                        reservas.append(reserva)
+                    except (ValueError, IndexError):
+                        print(f"Advertencia: Se omitió una línea mal formada en {ARCHIVO_RESERVAS}")
+    except FileNotFoundError:
+        print(f"Nota: No se encontró {ARCHIVO_RESERVAS}, se creará uno nuevo al guardar.")
+    
+    return reservas
+
+def guardar_reservas(reservas):
+    """
+    Recibe la lista de listas y la guarda en reservas.txt.
+    """
+    try:
+        with open(ARCHIVO_RESERVAS, 'w', encoding='utf-8') as f:
+            for reserva in reservas:
+                linea_items = [str(item) for item in reserva]
+                linea = ";".join(linea_items)
+                f.write(linea + "\n")
+    except OSError as e:
+        print(f"Error fatal al guardar reservas: {e}")
+
 def butaca_valida(b):
     return re.match(r"^[A-Ha-h][1-8]$", b.strip()) is not None
 
@@ -49,30 +88,32 @@ def buscar_pos(butaca):
     return pos
 
 def _construir_ids_obras():
-    ids = []
-    i = 0
-    while i < len(obras.obras):
-        o = obras.obras[i]
-        val = o.get("ID")
-        ya = False
-        j = 0
-        while j < len(ids):
-            if ids[j] == val:
-                ya = True
-            j += 1
-        if not ya:
-            ids.append(val)
-        i += 1
-    return ids
+    try:
+        with open("archivos/obras.json", "r", encoding="UTF-8") as f:
+            lista_obras = json.load(f)
+        
+        ids = []
+        for o in lista_obras:
+            val = o.get("ID")
+            if val not in ids:
+                ids.append(val)
+        return ids
+    except:
+        print("Error al leer obras.json para construir IDs")
+        return []
+
 
 def buscar_precio(id):
-    i = 0
-    while i < len(obras.obras):
-        o = obras.obras[i]
-        if o.get("ID") == id:
-            return o.get("Precio")
-        i += 1
-    return None
+    try:
+        with open("archivos/obras.json", "r", encoding="UTF-8") as f:
+            lista_obras = json.load(f)
+        for o in lista_obras:
+            if o.get("ID") == id:
+                return o.get("Precio")
+        return None
+    except:
+        print("Error al leer obras.json para buscar precio")
+        return None
 
 def mostrar_butacas():
     print("\n======================== BUTACAS ============================")
@@ -107,8 +148,15 @@ def mostrar_reservas(reservas_):
         fila = [str(r[0]), str(r[1]), str(r[2]), str(r[3]), str(r[4]), str(r[5]), str(r[6])]
         print("\t".join(fila))
         i += 1
+    print()
+    input("Presione ENTER para continuar")
 
 def init_estado_desde_reservas():
+    """
+    Función CRÍTICA: Ahora lee de reservas.txt para llenar la matriz 'butacas_estado'.
+    """
+    reservas = leer_reservas()
+    
     f = 0
     while f < len(butacas_estado):
         c = 0
@@ -116,9 +164,10 @@ def init_estado_desde_reservas():
             butacas_estado[f][c] = "0"
             c += 1
         f += 1
+    
     i = 0
     while i < len(reservas):
-        butacas_str = reservas[i][4]
+        butacas_str = reservas[i][4] 
         partes = butacas_str.split(",")
         j = 0
         while j < len(partes):
@@ -131,48 +180,44 @@ def init_estado_desde_reservas():
         i += 1
 
 def crear_reserva():
+    reservas = leer_reservas()
+    
     usuario = Main.ingreso_entero("Coloque el id de usuario: ")
-    nr = len(reservas) + 1
+    
+    if reservas:
+        nr = reservas[-1][1] + 1 
+    else:
+        nr = 1
+        
     ids_obras = _construir_ids_obras()
+    if not ids_obras:
+        print("Error: No se pudieron cargar las obras. No se puede reservar.")
+        return
+
     id_obra_valido = 0
     ok = False
     while ok == False:
         id_obra_valido = Main.ingreso_entero("Id de la obra: ")
-        esta = False
-        i = 0
-        while i < len(ids_obras):
-            if ids_obras[i] == id_obra_valido:
-                esta = True
-            i += 1
-        if esta:
+        if id_obra_valido in ids_obras:
             ok = True
         else:
             print("ID de obra inexistente. Mostrá las obras y elegí un ID válido.")
-    cant = 0
-    listo = False
-    while listo == False:
-        cant = Main.ingreso_entero("Cuántas entradas deseas reservar: ")
-        if cant > 0:
-            listo = True
-        else:
-            print("La cantidad debe ser un entero positivo.")
+    
+    cant = Main.ingreso_entero("Cuántas entradas deseas reservar (1 o más): ")
+    while cant <= 0:
+        cant = Main.ingreso_entero("La cantidad debe ser un entero positivo: ")
+        
     mostrar_butacas()
     butacas_elegidas = []
     i = 0
     while i < cant:
         valida = False
         while valida == False:
-            butaca = input("Butaca que desea (" + str(i+1) + "/" + str(cant) + "): ").strip().upper()
+            butaca = input(f"Butaca que desea ({i+1}/{cant}): ").strip().upper()
             if not butaca_valida(butaca):
                 print("Formato inválido. Usá A-H y 1-8 (ej: C5).")
             else:
-                repetida = False
-                r = 0
-                while r < len(butacas_elegidas):
-                    if butacas_elegidas[r] == butaca:
-                        repetida = True
-                    r += 1
-                if repetida:
+                if butaca in butacas_elegidas:
                     print("Ya elegiste esa butaca en esta reserva. Probá otra.")
                 else:
                     pos = buscar_pos(butaca)
@@ -183,85 +228,80 @@ def crear_reserva():
                         if butacas_estado[f][c] == "X":
                             print("Esa butaca ya está ocupada. Elegí otra.")
                         else:
-                            butacas_estado[f][c] = "X"
+                            butacas_estado[f][c] = "X" 
                             butacas_elegidas.append(butaca)
                             valida = True
         i += 1
+        
     butacas_cadena = ",".join(butacas_elegidas)
     precio = buscar_precio(id_obra_valido)
+    
     if precio is None:
-        print("No se encontró una obra con ese ID. No se guardará la reserva.")
+        print("Error crítico: No se encontró el precio de la obra. No se guardará la reserva.")
     else:
         total = precio * cant
-        print("El precio de cada entrada es de " + str(precio))
-        print("El total a abonar es de " + str(total))
+        print(f"El precio de cada entrada es de ${precio}")
+        print(f"El total a abonar es de ${total}")
         reserva = [usuario, nr, id_obra_valido, cant, butacas_cadena, precio, total]
         reservas.append(reserva)
-        print("¡Reserva realizada con éxito! El número de reserva es " + str(nr))
+        
+        guardar_reservas(reservas)
+        print(f"¡Reserva realizada con éxito! El número de reserva es {nr}")
+        
     mostrar_butacas()
+    input("Presione ENTER para continuar.")
 
 def modificar_reserva():
+    reservas = leer_reservas()
+    
+    if not reservas:
+        print("No hay reservas para modificar.")
+        input("Presione ENTER para continuar.")
+        return
+
     mostrar_reservas(reservas)
     nr = Main.ingreso_entero("Ingrese el número de reserva que desea modificar: ")
     indice = None
     i = 0
     while i < len(reservas) and indice is None:
-        if reservas[i][1] == nr:
+        if reservas[i][1] == nr: 
             indice = i
         i += 1
 
     if indice is None:
         print("No se encontró la reserva.")
+        input("Presione ENTER para continuar.")
         return
 
     reserva = reservas[indice]
-    print("Reserva actual:")
-    print("Usuario:", reserva[0], "NR:", reserva[1], "ID Obra:", reserva[2],
-          "Cantidad:", reserva[3], "Butacas:", reserva[4],
-          "Precio:", reserva[5], "Total:", reserva[6])
+    print(f"Reserva actual: {reserva}")
 
     nuevo_usuario = input("Nuevo usuario (ENTER para dejar igual): ").strip()
-    if nuevo_usuario != "":
-        if nuevo_usuario.isdigit():
-            reserva[0] = int(nuevo_usuario)
+    if nuevo_usuario != "" and nuevo_usuario.isdigit():
+        reserva[0] = int(nuevo_usuario)
 
     nuevo_id_obra = input("Nuevo ID de Obra (ENTER para dejar igual): ").strip()
-    if nuevo_id_obra != "":
-        if nuevo_id_obra.isdigit():
-            id_obra_int = int(nuevo_id_obra)
-            precio = buscar_precio(id_obra_int)
-            if precio is not None:
-                reserva[2] = id_obra_int
-                reserva[5] = precio
-                reserva[6] = precio * reserva[3]
+    if nuevo_id_obra != "" and nuevo_id_obra.isdigit():
+        id_obra_int = int(nuevo_id_obra)
+        precio = buscar_precio(id_obra_int)
+        if precio is not None:
+            reserva[2] = id_obra_int
+            reserva[5] = precio
+            reserva[6] = precio * reserva[3] 
 
-    nueva_cant = input("Nueva cantidad (ENTER para dejar igual): ").strip()
-    if nueva_cant != "":
-        if nueva_cant.isdigit():
-            cant_int = int(nueva_cant)
-            if cant_int > 0:
-                reserva[3] = cant_int
-                reserva[6] = reserva[5] * cant_int
-
-    nuevas_butacas = input("Nuevas butacas separadas por coma (ENTER para dejar igual): ").strip()
-    if nuevas_butacas != "":
-        reserva[4] = nuevas_butacas
-        partes = nuevas_butacas.split(",")
-        cantidad_real = 0
-        j = 0
-        while j < len(partes):
-            if partes[j].strip() != "":
-                cantidad_real += 1
-            j += 1
-        reserva[3] = cantidad_real
-        reserva[6] = reserva[5] * cantidad_real
-
+    guardar_reservas(reservas)
     print("Reserva modificada.")
-    print("Usuario:", reserva[0], "NR:", reserva[1], "ID Obra:", reserva[2],
-          "Cantidad:", reserva[3], "Butacas:", reserva[4],
-          "Precio:", reserva[5], "Total:", reserva[6])
+    print(f"Reserva nueva: {reserva}")
+    input("Presione ENTER para continuar.")
 
 def borrar_reserva():
+    reservas = leer_reservas()
+    
+    if not reservas:
+        print("No hay reservas para borrar.")
+        input("Presione ENTER para continuar.")
+        return
+
     mostrar_reservas(reservas)
     nr = Main.ingreso_entero("Ingrese el número de reserva que desea borrar: ")
     indice = None
@@ -270,10 +310,11 @@ def borrar_reserva():
         if reservas[i][1] == nr:
             indice = i
         i += 1
+        
     if indice is None:
         print("No se encontró una reserva con ese número.")
     else:
-        partes = reservas[indice][4].split(",")
+        partes = reservas[indice][4].split(",") 
         j = 0
         while j < len(partes):
             buscada = partes[j].strip().upper()
@@ -282,11 +323,17 @@ def borrar_reserva():
                 f, c = pos
                 butacas_estado[f][c] = "0"
             j += 1
+        
         reservas.pop(indice)
-        print("Reserva " + str(nr) + " eliminada correctamente. Las butacas fueron liberadas.")
+        
+        guardar_reservas(reservas)
+        print(f"Reserva {nr} eliminada correctamente. Las butacas fueron liberadas.")
+        
     mostrar_butacas()
+    input("Presione ENTER para continuar.")
 
 if __name__ == "__main__":
-    mostrar_reservas(reservas)
     init_estado_desde_reservas()
+    reservas_leidas = leer_reservas()
+    mostrar_reservas(reservas_leidas)
     mostrar_butacas()
