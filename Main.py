@@ -70,7 +70,7 @@ def main():
     # -------------------------------------------------
     # Inicialización de variables
     # ----------------------------------------------------------------------------------------------
-
+    init_estado_desde_reservas()
     # -------------------------------------------------
     # Bloque de menú
     # ----------------------------------------------------------------------------------------------
@@ -151,7 +151,8 @@ def main():
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:
                 while True:
-                    opciones = 4
+                    # 1. Cambiamos de 4 a 5 opciones
+                    opciones = 5 
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ FUNCIONES")
@@ -160,6 +161,8 @@ def main():
                     print("[2] Agregar función")
                     print("[3] Modificar función")
                     print("[4] Borrar función")
+                    # 2. Agregamos la nueva opción
+                    print("[5] Reportes con Lambdas (map, filter, reduce)") 
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -168,7 +171,7 @@ def main():
                     opcion = input("Seleccione una opción: ")
                     if opcion in [
                         str(i) for i in range(0, opciones + 1)
-                    ]:  # Sólo continua si se elije una opcion de menú válida
+                    ]: 
                         break
                     else:
                         input(
@@ -176,11 +179,14 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  # Opción salir del submenú
-                    break  # Volver al menú anterior
+                if opcion == "0":  
+                    break  
 
                 elif opcion == "1":  # Mostrar Funciones
-                    mostrar_matriz(funciones, ("ID Función", "ID Obra", "Fecha"))
+                    lista_de_funciones = leer_funciones() # Llama a la función de lectura
+                    mostrar_matriz(
+                        lista_de_funciones, ("ID Función", "ID Obra", "Fecha")
+                    )
 
                 elif opcion == "2":
                     crear_funcion()
@@ -190,6 +196,10 @@ def main():
 
                 elif opcion == "4":
                     borrar_funcion()
+                
+                # 3. Agregamos el 'elif' para la nueva opción
+                elif opcion == "5":
+                    reportes_con_lambdas()
 
         elif opcion == "3":  # MENÚ RESERVAS
             while True:
@@ -219,29 +229,19 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  # Opción salir del submenú
-                    break  # Volver al menú anterior
+                if opcion == "0":  
+                    break 
 
                 elif opcion == "1":  # Opción 1
-                    mostrar_matriz(
-                        reservas,
-                        (
-                            "Usuario",
-                            "NR",
-                            "ID Obra",
-                            "Cantidad",
-                            "Butacas",
-                            "Precio",
-                            "Total",
-                        ),
-                    )
-
+                    lista_de_reservas = leer_reservas()
+                    mostrar_reservas(lista_de_reservas)
                 elif opcion == "2":  # Opción 2
                     crear_reserva()
                 elif opcion == "3":  # Opción 2
                     modificar_reserva()
                 elif opcion == "4":  # Opción 2
                     borrar_reserva()
+     
 
         elif opcion == "4":  # MENÚ USUARIOS
             while True:
@@ -277,8 +277,9 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
+                    lista_de_usuarios = leer_usuarios() # Llama a la función de lectura
                     mostrar_matriz(
-                        usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono", "Edad")
+                        lista_de_usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono", "Edad")
                     )
 
                 elif opcion == "2":  # Opción 2
