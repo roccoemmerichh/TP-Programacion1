@@ -1,0 +1,6 @@
+1;Juan Pérez;juanperez@gmail.com;12345678;25
+2;Ana Gómez;anagomez@gmail.com;87654321;30
+3;Carlos López;carloslopez@gmail.com;11223344;28
+4;María Díaz;mariadiaz@gmail.com;44332211;22
+5;Luis Fernández;luisfernandez@gmail.com;99887766;35
+6;max;m@gmail.com;12345678;23
