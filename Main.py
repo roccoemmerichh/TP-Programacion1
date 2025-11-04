@@ -119,7 +119,7 @@ def main():
         elif opcion == "1":  # MENÚ OBRAS
             while True:
                 while True:
-                    opciones = 4
+                    opciones = 5
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ OBRAS")
@@ -128,6 +128,7 @@ def main():
                     print("[2] Agregar obra")
                     print("[3] Modificar obra")
                     print("[4] Eliminar obra")
+                    print("[5] Estadistica precios")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
@@ -160,6 +161,10 @@ def main():
 
                 elif opcion == "4":  # Opción 4
                     borrar_obra("archivos/obras.json")
+
+                elif opcion == "5":  # Opción 5
+                    estadisticas_precios_obras("archivos/obras.json")
+
 
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:

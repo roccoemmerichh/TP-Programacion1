@@ -145,3 +145,21 @@ def borrar_obra(archivo):
 
     except (FileNotFoundError, OSError) as error:
         print(f"Error! {error}")
+
+
+def estadisticas_precios_obras(archivo):
+    try:
+        with open(archivo, "r", encoding="UTF-8") as datos:
+            obras = json.load(datos)
+
+        precios = []
+        for obra in obras:
+            precios.append(obra["Precio"])
+
+        minimo = min(precios)
+        promedio = sum(precios) // len(precios)
+        maximo = max(precios)
+        input(f'El precio mínimo es: {minimo}\nEl precio promedio es: {promedio}\nEl precio maximo es: {maximo}\n\nPresione ENTER para continuar')
+
+    except (FileNotFoundError, OSError) as error:
+        print(f"Error! {error}")
