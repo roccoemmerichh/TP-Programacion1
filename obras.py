@@ -24,18 +24,23 @@ def agregar_obras(archivo):
                 "Ingreso Inválido: La Categoría no puede estar vacío. Presione ENTER para reintentar.",
             ).capitalize()
 
+            duracion = ingreso_entero(
+                "Ingrese la Duración de la obra (minutos): "
+            )  # Ingreso Duración
+
             nueva_obra = {
                 "ID": nuevo_id,
                 "Nombre": nombre,
                 "Precio": precio,
                 "Categoría": categoria,
+                "Duración": duracion,
             }
             obras.append(nueva_obra)
 
             with open(archivo, "w", encoding="UTF-8") as datos:
                 json.dump(obras, datos, ensure_ascii=False)
             print(
-                f"Obra agregada: | ID: {nuevo_id} | Nombre: {nombre} | Precio: ${precio} | Categoría: {categoria} |"
+                f"Obra agregada: | ID: {nuevo_id} | Nombre: {nombre} | Precio: ${precio} | Categoría: {categoria} | Duración: {duracion} min |"
             )
             input("Presione ENTER para continuar.")
 

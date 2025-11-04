@@ -3,30 +3,35 @@
         "ID": 1,
         "Nombre": "Hamlet",
         "Precio": 18000,
-        "Categoria": "Drama"
+        "Categoria": "Drama",
+        "Duracion": 160
     },
     {
         "ID": 2,
         "Nombre": "La Jaula de las Locas",
         "Precio": 20000,
-        "Categoria": "Comedia Musical"
+        "Categoria": "Comedia Musical",
+        "Duracion": 150
     },
     {
         "ID": 3,
         "Nombre": "Sueño de una Noche de Verano",
         "Precio": 15000,
-        "Categoria": "Comedia"
+        "Categoria": "Comedia",
+        "Duracion": 125
     },
     {
         "ID": 4,
         "Nombre": "El Fantasma de la Ópera",
         "Precio": 25000,
-        "Categoria": "Musical"
+        "Categoria": "Musical",
+        "Duracion": 175
     },
     {
         "ID": 5,
         "Nombre": "Bodas de Sangre",
         "Precio": 17000,
-        "Categoria": "Drama"
+        "Categoria": "Drama",
+        "Duracion": 110
     }
 ]
