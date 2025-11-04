@@ -47,7 +47,7 @@ def ingreso_entero(mensaje="Ingrese un número entero: "):
     """Solamente permite ingresar enteros positivos o 0. Devuelve un int."""
     while True:
         try:
-            valor_ingresado = float(input(mensaje))
+            valor_ingresado = float(input(mensaje).strip())
             valor_entero = int(valor_ingresado)
             if valor_entero != valor_ingresado or valor_entero < 0:
                 raise ValueError
@@ -61,6 +61,19 @@ def ingreso_entero(mensaje="Ingrese un número entero: "):
         except:
             print("Error inesperado")
     return valor_entero
+
+
+def ingreso_texto(
+    mensaje="Ingrese un texto: ",
+    error="Ingreso inválido: No puede quedar vacío. Presione ENTER para reintentar",
+):
+    while True:
+        texto = input(mensaje).strip()
+        if texto == "":
+            input(error)
+        else:
+            break
+    return texto
 
 
 # ----------------------------------------------------------------------------------------------
@@ -152,7 +165,7 @@ def main():
             while True:
                 while True:
                     # 1. Cambiamos de 4 a 5 opciones
-                    opciones = 5 
+                    opciones = 5
                     print()
                     print("---------------------------")
                     print("MENÚ PRINCIPAL > MENÚ FUNCIONES")
@@ -162,16 +175,14 @@ def main():
                     print("[3] Modificar función")
                     print("[4] Borrar función")
                     # 2. Agregamos la nueva opción
-                    print("[5] Reportes con Lambdas (map, filter, reduce)") 
+                    print("[5] Reportes con Lambdas (map, filter, reduce)")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
                     print("---------------------------")
                     print()
 
                     opcion = input("Seleccione una opción: ")
-                    if opcion in [
-                        str(i) for i in range(0, opciones + 1)
-                    ]: 
+                    if opcion in [str(i) for i in range(0, opciones + 1)]:
                         break
                     else:
                         input(
@@ -179,11 +190,13 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  
-                    break  
+                if opcion == "0":
+                    break
 
                 elif opcion == "1":  # Mostrar Funciones
-                    lista_de_funciones = leer_funciones() # Llama a la función de lectura
+                    lista_de_funciones = (
+                        leer_funciones()
+                    )  # Llama a la función de lectura
                     mostrar_matriz(
                         lista_de_funciones, ("ID Función", "ID Obra", "Fecha")
                     )
@@ -196,7 +209,7 @@ def main():
 
                 elif opcion == "4":
                     borrar_funcion()
-                
+
                 # 3. Agregamos el 'elif' para la nueva opción
                 elif opcion == "5":
                     reportes_con_lambdas()
@@ -229,8 +242,8 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  
-                    break 
+                if opcion == "0":
+                    break
 
                 elif opcion == "1":  # Opción 1
                     lista_de_reservas = leer_reservas()
@@ -241,7 +254,6 @@ def main():
                     modificar_reserva()
                 elif opcion == "4":  # Opción 2
                     borrar_reserva()
-     
 
         elif opcion == "4":  # MENÚ USUARIOS
             while True:
@@ -277,9 +289,10 @@ def main():
                     break  # Volver al menú anterior
 
                 elif opcion == "1":  # Opción 1
-                    lista_de_usuarios = leer_usuarios() # Llama a la función de lectura
+                    lista_de_usuarios = leer_usuarios()  # Llama a la función de lectura
                     mostrar_matriz(
-                        lista_de_usuarios, ("ID Usuario", "Nombre", "Email", "Teléfono", "Edad")
+                        lista_de_usuarios,
+                        ("ID Usuario", "Nombre", "Email", "Teléfono", "Edad"),
                     )
 
                 elif opcion == "2":  # Opción 2
