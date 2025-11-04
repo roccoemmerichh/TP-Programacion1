@@ -1,4 +1,5 @@
-import json, Main
+import json
+from Main import *
 
 
 def agregar_obras(archivo):
@@ -11,22 +12,31 @@ def agregar_obras(archivo):
             else:
                 nuevo_id = max(obra["ID"] for obra in obras) + 1
 
-            nombre = input("Nombre de la obra: ").strip().capitalize()
-            while nombre == "":
-                nombre = input("El nombre no puede estar vacío: ").strip().capitalize()
+            nombre = ingreso_texto(  # Ingreso Nombre
+                "Nombre de la obra: ",
+                "Ingreso Inválido: El nombre no puede estar vacío. Presione ENTER para reintentar.",
+            ).capitalize()
 
-            precio = input("Precio de la obra: ").strip()
-            while not precio.isnumeric() or int(precio) <= 0:
-                precio = input("Precio inválido. Ingrese un número mayor a 0: ").strip()
+            precio = ingreso_entero("Precio de la obra: ")  # Ingreso Precio
 
-            precio = int(precio)
+            categoria = ingreso_texto(  # Ingreso Categoría
+                "Categoría de la obra: ",
+                "Ingreso Inválido: La Categoría no puede estar vacío. Presione ENTER para reintentar.",
+            ).capitalize()
 
-            nueva_obra = {"ID": nuevo_id, "Nombre": nombre, "Precio": precio}
+            nueva_obra = {
+                "ID": nuevo_id,
+                "Nombre": nombre,
+                "Precio": precio,
+                "Categoría": categoria,
+            }
             obras.append(nueva_obra)
 
             with open(archivo, "w", encoding="UTF-8") as datos:
                 json.dump(obras, datos, ensure_ascii=False)
-            print(f"Obra agregada: ID {nuevo_id} - {nombre} - ${precio}")
+            print(
+                f"Obra agregada: | ID: {nuevo_id} | Nombre: {nombre} | Precio: ${precio} | Categoría: {categoria} |"
+            )
             input("Presione ENTER para continuar.")
 
     except (FileNotFoundError, OSError) as error:

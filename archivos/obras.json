@@ -1,22 +1,32 @@
 [
     {
         "ID": 1,
-        "Nombre": "La Traviata",
-        "Precio": 5000
+        "Nombre": "Hamlet",
+        "Precio": 18000,
+        "Categoria": "Drama"
     },
     {
         "ID": 2,
-        "Nombre": "Hamlet",
-        "Precio": 6500
+        "Nombre": "La Jaula de las Locas",
+        "Precio": 20000,
+        "Categoria": "Comedia Musical"
     },
     {
         "ID": 3,
-        "Nombre": "El Lago de los Cisnes",
-        "Precio": 7000
+        "Nombre": "Sueño de una Noche de Verano",
+        "Precio": 15000,
+        "Categoria": "Comedia"
     },
     {
         "ID": 4,
-        "Nombre": "Don Quijote",
-        "Precio": 5500
+        "Nombre": "El Fantasma de la Ópera",
+        "Precio": 25000,
+        "Categoria": "Musical"
+    },
+    {
+        "ID": 5,
+        "Nombre": "Bodas de Sangre",
+        "Precio": 17000,
+        "Categoria": "Drama"
     }
 ]
