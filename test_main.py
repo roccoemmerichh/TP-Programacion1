@@ -2,9 +2,6 @@
 import re
 from usuarios import patron_email, patron_telefono, promedio
 
-
-
-
 #Prueba 1 patron email
 def test_patron_email_valido():
     "Verifica emails con formato correcto."
