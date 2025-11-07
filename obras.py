@@ -1,7 +1,6 @@
 import json
 from Main import *
 
-
 def agregar_obras(archivo):
     try:
         with open(archivo, "r", encoding="UTF-8") as datos:
