@@ -34,9 +34,7 @@ def obtener_todos_los_usuarios():
     return usuarios
 
 def obtener_ultimo_id_usuario(archivo):
-    """
-    Lee el archivo para encontrar el último ID de usuario.
-    """
+    #Lee el archivo para encontrar el último ID de usuario.
     ultimo_id = 0
     try:
         with open(archivo, "rt", encoding="UTF-8") as arch:
@@ -53,10 +51,8 @@ def obtener_ultimo_id_usuario(archivo):
     return ultimo_id
 
 def crear_usuario():
-    """
-    Agrega un nuevo usuario al final del archivo (modo 'a').
-    No carga todo el archivo en memoria.
-    """
+    #Agrega un nuevo usuario al final del archivo modo 'a'
+
     ultimo_id = obtener_ultimo_id_usuario(ARCHIVO_USUARIOS)
     id_usuario = ultimo_id + 1 
         
