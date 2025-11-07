@@ -1,15 +1,35 @@
 import time, os, json
 from obras import *
-from funciones import *
-from reservas import *
-from usuarios import *
-
+from funciones import (
+    crear_funcion, modificar_funcion, borrar_funcion, 
+    reportes_con_lambdas, obtener_todas_las_funciones
+)
+from reservas import (
+    crear_reserva, modificar_reserva, borrar_reserva, 
+    obtener_todas_las_reservas, init_estado_desde_reservas,
+    mostrar_reservas
+)
+from usuarios import (
+    crear_usuario, modificar_usuario, borrar_usuario,
+    promedio_edad_por_funcion, usuarios_con_mas_reservas,
+    obtener_todos_los_usuarios
+)
 
 def mostrar_matriz(matriz, encabezados="-" * 20):
     print()
-    for titulo in encabezados:
-        print(f"{titulo:<25}", end="")
+    if isinstance(encabezados, (list, tuple)):
+        for titulo in encabezados:
+            print(f"{titulo:<25}", end="")
+    else:
+        print(encabezados)
     print()
+    
+    if not matriz:
+        print("No hay datos para mostrar.")
+        print()
+        input("Presione ENTER para continuar")
+        return
+
     for fila in matriz:
         for dato in fila:
             print(f"{dato:<25}", end="")
@@ -22,10 +42,19 @@ def mostrar_lista_diccionarios(archivo):
     try:
         with open(archivo, encoding="UTF-8") as datos:
             lista = json.load(datos)
+            
+            if not lista:
+                print("\nNo hay obras para mostrar.")
+                print()
+                input("Presione ENTER para continuar")
+                return
+
             print()
             for clave in lista[0].keys():
                 print(f"{clave:<25}", end="")
             print()
+            print("-" * (25 * len(lista[0].keys()))) 
+            
             for diccionario in lista:
                 for dato in diccionario:
                     print(f"{diccionario[dato]:<25}", end="")
@@ -34,6 +63,13 @@ def mostrar_lista_diccionarios(archivo):
             input("Presione ENTER para continuar")
     except (FileNotFoundError, OSError) as error:
         print(f"Error! {error}")
+    except json.JSONDecodeError:
+        print(f"Error: El archivo {archivo} está vacío o mal formado.")
+        input("Presione ENTER para continuar")
+    except IndexError:
+         print("\nNo hay obras para mostrar (archivo vacío).")
+         print()
+         input("Presione ENTER para continuar")
 
 
 def limpiar_terminal():
@@ -83,7 +119,7 @@ def main():
     # -------------------------------------------------
     # Inicialización de variables
     # ----------------------------------------------------------------------------------------------
-    init_estado_desde_reservas()
+    init_estado_desde_reservas() # Carga el estado de las butacas desde el TXT al inicio
     # -------------------------------------------------
     # Bloque de menú
     # ----------------------------------------------------------------------------------------------
@@ -137,7 +173,7 @@ def main():
                     opcion = input("Seleccione una opción: ")
                     if opcion in [
                         str(i) for i in range(0, opciones + 1)
-                    ]:  # Sólo continua si se elije una opcion de menú válida
+                    ]:  
                         break
                     else:
                         input(
@@ -145,31 +181,28 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  # Opción salir del submenú
-                    break  # Volver al menú anterior
+                if opcion == "0":  
+                    break  
 
-                elif opcion == "1":  # Opción 1
+                elif opcion == "1":  
                     mostrar_lista_diccionarios("archivos/obras.json")
 
-                elif opcion == "2":  # Opción 2
+                elif opcion == "2": 
                     agregar_obras("archivos/obras.json")
-                    mostrar_lista_diccionarios("archivos/obras.json")
 
-                elif opcion == "3":  # Opción 3
+                elif opcion == "3":  
                     modificar_obra("archivos/obras.json")
-                    mostrar_lista_diccionarios("archivos/obras.json")
 
-                elif opcion == "4":  # Opción 4
+                elif opcion == "4": 
                     borrar_obra("archivos/obras.json")
 
-                elif opcion == "5":  # Opción 5
+                elif opcion == "5":  
                     estadisticas_precios_obras("archivos/obras.json")
 
 
         elif opcion == "2":  # MENÚ FUNCIONES
             while True:
                 while True:
-                    # 1. Cambiamos de 4 a 5 opciones
                     opciones = 5
                     print()
                     print("---------------------------")
@@ -179,7 +212,6 @@ def main():
                     print("[2] Agregar función")
                     print("[3] Modificar función")
                     print("[4] Borrar función")
-                    # 2. Agregamos la nueva opción
                     print("[5] Reportes con Lambdas (map, filter, reduce)")
                     print("---------------------------")
                     print("[0] Volver al menú anterior")
@@ -198,24 +230,20 @@ def main():
                 if opcion == "0":
                     break
 
-                elif opcion == "1":  # Mostrar Funciones
-                    lista_de_funciones = (
-                        leer_funciones()
-                    )  # Llama a la función de lectura
+                elif opcion == "1":  
+                    lista_de_funciones = obtener_todas_las_funciones() 
                     mostrar_matriz(
                         lista_de_funciones, ("ID Función", "ID Obra", "Fecha")
                     )
 
                 elif opcion == "2":
-                    crear_funcion()
+                    crear_funcion() 
 
                 elif opcion == "3":
-                    modificar_funcion()
-
+                    modificar_funcion() 
                 elif opcion == "4":
-                    borrar_funcion()
+                    borrar_funcion() 
 
-                # 3. Agregamos el 'elif' para la nueva opción
                 elif opcion == "5":
                     reportes_con_lambdas()
 
@@ -239,7 +267,7 @@ def main():
                     opcion = input("Seleccione una opción: ")
                     if opcion in [
                         str(i) for i in range(0, opciones + 1)
-                    ]:  # Sólo continua si se elije una opcion de menú válida
+                    ]:  
                         break
                     else:
                         input(
@@ -250,15 +278,18 @@ def main():
                 if opcion == "0":
                     break
 
-                elif opcion == "1":  # Opción 1
-                    lista_de_reservas = leer_reservas()
+                elif opcion == "1":  
+                    lista_de_reservas = obtener_todas_las_reservas()
                     mostrar_reservas(lista_de_reservas)
-                elif opcion == "2":  # Opción 2
-                    crear_reserva()
-                elif opcion == "3":  # Opción 2
-                    modificar_reserva()
-                elif opcion == "4":  # Opción 2
-                    borrar_reserva()
+
+                elif opcion == "2":  
+                    crear_reserva() 
+
+                elif opcion == "3":  
+                    modificar_reserva() 
+
+                elif opcion == "4":  
+                    borrar_reserva() 
 
         elif opcion == "4":  # MENÚ USUARIOS
             while True:
@@ -282,7 +313,7 @@ def main():
                     opcion = input("Seleccione una opción: ")
                     if opcion in [
                         str(i) for i in range(0, opciones + 1)
-                    ]:  # Sólo continua si se elije una opcion de menú válida
+                    ]:  
                         break
                     else:
                         input(
@@ -290,34 +321,33 @@ def main():
                         )
                 print()
 
-                if opcion == "0":  # Opcion salir del submenú
-                    break  # Volver al menú anterior
+                if opcion == "0":  
+                    break 
 
-                elif opcion == "1":  # Opción 1
-                    lista_de_usuarios = leer_usuarios()  # Llama a la función de lectura
+                elif opcion == "1":  
+                    lista_de_usuarios = obtener_todos_los_usuarios()
                     mostrar_matriz(
                         lista_de_usuarios,
                         ("ID Usuario", "Nombre", "Email", "Teléfono", "Edad"),
                     )
 
-                elif opcion == "2":  # Opción 2
-                    crear_usuario()
+                elif opcion == "2":  
+                    crear_usuario() 
 
-                elif opcion == "3":  # Opción 3
-                    modificar_usuario()
+                elif opcion == "3":  
+                    modificar_usuario() 
 
-                elif opcion == "4":  # Opción 4
-                    borrar_usuario()
+                elif opcion == "4":  
+                    borrar_usuario() 
 
-                elif opcion == "5":  # Opción 5
+                elif opcion == "5":  
                     promedio_edad_por_funcion()
 
-                elif opcion == "6":  # Opción 6
+                elif opcion == "6":  
                     usuarios_con_mas_reservas()
 
         input("\nPresione ENTER para volver al menú.")
         print("\n\n")
-
 
 if __name__ == "__main__":
     main()
