@@ -28,7 +28,6 @@ butacas_estado = [
     ["0","0","0","0","0","0","0","0"],
 ]
 
-
 def obtener_todas_las_reservas():
     #Lee todas las reservas del archivo y las devuelve en una lista
     reservas = []
@@ -105,8 +104,7 @@ def _construir_ids_obras():
     except:
         print("Error al leer obras.json para construir IDs")
         return []
-
-
+        
 def buscar_precio(id):
     try:
         with open("archivos/obras.json", "r", encoding="UTF-8") as f:
@@ -183,11 +181,7 @@ def init_estado_desde_reservas():
     print("Estado de butacas inicializado desde el archivo.")
 
 def crear_reserva():
-    """
-    Agrega una nueva reserva al final del archivo (modo 'a').
-    No carga todo el archivo en memoria (excepto para obtener el último ID).
-    """
-    
+    #Agrega una nueva reserva al final del archivo modo 'a'
     usuario = Main.ingreso_entero("Coloque el id de usuario: ")
     
     ultimo_nr = obtener_ultima_nr_reserva(ARCHIVO_RESERVAS)
@@ -345,7 +339,6 @@ def modificar_reserva():
         print(f"No se encontró la reserva con NR {nr_modificar}.")
 
     input("Presione ENTER para continuar.")
-
 
 def borrar_reserva():
     #Borra una reserva usando el metodo de archivo temporal.
