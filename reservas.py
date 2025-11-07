@@ -2,6 +2,7 @@ import obras
 import re
 import Main
 import json
+import os 
 
 ARCHIVO_RESERVAS = "archivos/reservas.txt"
 
@@ -28,10 +29,8 @@ butacas_estado = [
 ]
 
 
-def leer_reservas():
-    """
-    Lee el archivo reservas.txt y devuelve una lista de listas.
-    """
+def obtener_todas_las_reservas():
+    #Lee todas las reservas del archivo y las devuelve en una lista
     reservas = []
     try:
         with open(ARCHIVO_RESERVAS, 'r', encoding='utf-8') as f:
@@ -40,7 +39,6 @@ def leer_reservas():
                 if linea:
                     try:
                         partes = linea.split(';')
-
                         reserva = [
                             int(partes[0]),  
                             int(partes[1]),  
@@ -58,18 +56,24 @@ def leer_reservas():
     
     return reservas
 
-def guardar_reservas(reservas):
-    """
-    Recibe la lista de listas y la guarda en reservas.txt.
-    """
+def obtener_ultima_nr_reserva(archivo):
+    #Lee el archivo para encontrar el último numero de reserva.
+    ultimo_nr = 0
     try:
-        with open(ARCHIVO_RESERVAS, 'w', encoding='utf-8') as f:
-            for reserva in reservas:
-                linea_items = [str(item) for item in reserva]
-                linea = ";".join(linea_items)
-                f.write(linea + "\n")
-    except OSError as e:
-        print(f"Error fatal al guardar reservas: {e}")
+        with open(archivo, "rt", encoding="UTF-8") as arch:
+            for linea in arch:
+                linea = linea.strip()
+                if linea:
+                    try:
+                        datos = linea.split(";")
+                        nr_actual = int(datos[1]) 
+                        if nr_actual > ultimo_nr:
+                            ultimo_nr = nr_actual
+                    except (ValueError, IndexError):
+                        pass 
+    except FileNotFoundError:
+        pass  
+    return ultimo_nr
 
 def butaca_valida(b):
     return re.match(r"^[A-Ha-h][1-8]$", b.strip()) is not None
@@ -141,21 +145,19 @@ def mostrar_butacas():
 def mostrar_reservas(reservas_):
     encabezados = ["Usuario", "NR", "ID Obra", "Cantidad", "Butacas", "Precio", "Total"]
     print("\n====================== RESERVAS ============================")
-    print("\t".join(encabezados))
+    print(f"{encabezados[0]:<10} {encabezados[1]:<5} {encabezados[2]:<10} {encabezados[3]:<10} {encabezados[4]:<20} {encabezados[5]:<10} {encabezados[6]:<10}")
+    print("-" * 75)
     i = 0
     while i < len(reservas_):
         r = reservas_[i]
-        fila = [str(r[0]), str(r[1]), str(r[2]), str(r[3]), str(r[4]), str(r[5]), str(r[6])]
-        print("\t".join(fila))
+        print(f"{r[0]:<10} {r[1]:<5} {r[2]:<10} {r[3]:<10} {r[4]:<20} {r[5]:<10} {r[6]:<10}")
         i += 1
     print()
     input("Presione ENTER para continuar")
 
 def init_estado_desde_reservas():
-    """
-    Función CRÍTICA: Ahora lee de reservas.txt para llenar la matriz 'butacas_estado'.
-    """
-    reservas = leer_reservas()
+    #Lee de reservas.txt para llenar la matriz 'butacas_estado' al inicio del programa
+    reservas = obtener_todas_las_reservas()
     
     f = 0
     while f < len(butacas_estado):
@@ -175,19 +177,21 @@ def init_estado_desde_reservas():
             pos = buscar_pos(buscada)
             if pos is not None:
                 ff, cc = pos
-                butacas_estado[ff][cc] = "X"
+                butacas_estado[ff][cc] = "X" 
             j += 1
         i += 1
+    print("Estado de butacas inicializado desde el archivo.")
 
 def crear_reserva():
-    reservas = leer_reservas()
+    """
+    Agrega una nueva reserva al final del archivo (modo 'a').
+    No carga todo el archivo en memoria (excepto para obtener el último ID).
+    """
     
     usuario = Main.ingreso_entero("Coloque el id de usuario: ")
     
-    if reservas:
-        nr = reservas[-1][1] + 1 
-    else:
-        nr = 1
+    ultimo_nr = obtener_ultima_nr_reserva(ARCHIVO_RESERVAS)
+    nr = ultimo_nr + 1
         
     ids_obras = _construir_ids_obras()
     if not ids_obras:
@@ -238,102 +242,180 @@ def crear_reserva():
     
     if precio is None:
         print("Error crítico: No se encontró el precio de la obra. No se guardará la reserva.")
+        for b in butacas_elegidas:
+            pos = buscar_pos(b)
+            if pos:
+                butacas_estado[pos[0]][pos[1]] = "0"
     else:
         total = precio * cant
         print(f"El precio de cada entrada es de ${precio}")
         print(f"El total a abonar es de ${total}")
-        reserva = [usuario, nr, id_obra_valido, cant, butacas_cadena, precio, total]
-        reservas.append(reserva)
         
-        guardar_reservas(reservas)
-        print(f"¡Reserva realizada con éxito! El número de reserva es {nr}")
-        
+        try:
+            with open(ARCHIVO_RESERVAS, "a", encoding="UTF-8") as arch:
+                nueva_reserva = f"{usuario};{nr};{id_obra_valido};{cant};{butacas_cadena};{precio};{total}\n"
+                arch.write(nueva_reserva)
+            print(f"¡Reserva realizada con éxito! El número de reserva es {nr}")
+        except OSError as e:
+            print(f"Error al guardar la reserva: {e}")
+            for b in butacas_elegidas:
+                pos = buscar_pos(b)
+                if pos:
+                    butacas_estado[pos[0]][pos[1]] = "0"
+            print("Se revirtió la ocupación de butacas en memoria.")
+            
     mostrar_butacas()
     input("Presione ENTER para continuar.")
 
 def modificar_reserva():
-    reservas = leer_reservas()
-    
-    if not reservas:
-        print("No hay reservas para modificar.")
-        input("Presione ENTER para continuar.")
+    #Modifica una reserva usando el método de archivo temporal.
+    nr_modificar = str(Main.ingreso_entero("Ingrese el número de reserva que desea modificar: "))
+    temp_archivo = "archivos/reservas.tmp"
+    encontrado = False
+    reserva_modificada = ""
+
+    try:
+        with open(ARCHIVO_RESERVAS, "rt", encoding="UTF-8") as arch, \
+             open(temp_archivo, "wt", encoding="UTF-8") as aux:
+
+            for linea in arch:
+                linea = linea.strip()
+                if not linea:
+                    continue
+                
+                try:
+                    datos = linea.split(";")
+                    codigo_nr = datos[1]
+                except (ValueError, IndexError):
+                    aux.write(linea + '\n')
+                    continue
+
+                if codigo_nr == nr_modificar:
+                    encontrado = True
+                    usuario_actual = datos[0]
+                    id_obra_actual = datos[2]
+                    cant_actual = datos[3]
+                    butacas_actuales = datos[4]
+                    precio_actual = datos[5]
+                    
+                    print(f"Reserva actual (NR {codigo_nr}): Usuario {usuario_actual}, Obra {id_obra_actual}")
+
+                    nuevo_usuario = input("Nuevo ID de usuario (ENTER para dejar igual): ").strip()
+                    if nuevo_usuario == "" or not nuevo_usuario.isdigit():
+                        nuevo_usuario = usuario_actual
+                    
+                    nuevo_id_obra = input("Nuevo ID de Obra (ENTER para dejar igual): ").strip()
+                    if nuevo_id_obra == "" or not nuevo_id_obra.isdigit():
+                        nuevo_id_obra = id_obra_actual
+                        nuevo_precio = precio_actual
+                    else:
+                        precio_buscado = buscar_precio(int(nuevo_id_obra))
+                        if precio_buscado is not None:
+                            nuevo_precio = precio_buscado
+                        else:
+                            print("ID de obra nuevo no encontrado. Se mantiene la obra original.")
+                            nuevo_id_obra = id_obra_actual
+                            nuevo_precio = precio_actual
+                    
+                    total_nuevo = int(nuevo_precio) * int(cant_actual)
+                    
+                    nueva_linea = f"{nuevo_usuario};{codigo_nr};{nuevo_id_obra};{cant_actual};{butacas_actuales};{nuevo_precio};{total_nuevo}\n"
+                    aux.write(nueva_linea)
+                    reserva_modificada = nueva_linea.strip()
+                    print("Reserva modificada.")
+                else:
+                    aux.write(linea + '\n')
+                    
+    except FileNotFoundError:
+        print(f"El archivo {ARCHIVO_RESERVAS} no existe.")
+        return
+    except OSError as error:
+        print("Error en el acceso al archivo:", error)
         return
 
-    mostrar_reservas(reservas)
-    nr = Main.ingreso_entero("Ingrese el número de reserva que desea modificar: ")
-    indice = None
-    i = 0
-    while i < len(reservas) and indice is None:
-        if reservas[i][1] == nr: 
-            indice = i
-        i += 1
+    if encontrado:
+        try:
+            os.remove(ARCHIVO_RESERVAS)
+            os.rename(temp_archivo, ARCHIVO_RESERVAS)
+            print(f"Reserva nueva: {reserva_modificada}")
+        except OSError as error:
+            print("Error al reemplazar el archivo:", error)
+    else:
+        os.remove(temp_archivo)
+        print(f"No se encontró la reserva con NR {nr_modificar}.")
 
-    if indice is None:
-        print("No se encontró la reserva.")
-        input("Presione ENTER para continuar.")
-        return
-
-    reserva = reservas[indice]
-    print(f"Reserva actual: {reserva}")
-
-    nuevo_usuario = input("Nuevo usuario (ENTER para dejar igual): ").strip()
-    if nuevo_usuario != "" and nuevo_usuario.isdigit():
-        reserva[0] = int(nuevo_usuario)
-
-    nuevo_id_obra = input("Nuevo ID de Obra (ENTER para dejar igual): ").strip()
-    if nuevo_id_obra != "" and nuevo_id_obra.isdigit():
-        id_obra_int = int(nuevo_id_obra)
-        precio = buscar_precio(id_obra_int)
-        if precio is not None:
-            reserva[2] = id_obra_int
-            reserva[5] = precio
-            reserva[6] = precio * reserva[3] 
-
-    guardar_reservas(reservas)
-    print("Reserva modificada.")
-    print(f"Reserva nueva: {reserva}")
     input("Presione ENTER para continuar.")
 
+
 def borrar_reserva():
-    reservas = leer_reservas()
-    
-    if not reservas:
-        print("No hay reservas para borrar.")
-        input("Presione ENTER para continuar.")
+    #Borra una reserva usando el metodo de archivo temporal.
+    nr_borrar = str(Main.ingreso_entero("Ingrese el número de reserva que desea borrar: "))
+    temp_archivo = "archivos/reservas.tmp"
+    encontrado = False
+    butacas_a_liberar = []
+
+    try:
+        with open(ARCHIVO_RESERVAS, "rt", encoding="UTF-8") as arch, \
+             open(temp_archivo, "wt", encoding="UTF-8") as aux:
+
+            for linea in arch:
+                linea = linea.strip()
+                if not linea:
+                    continue
+                
+                try:
+                    datos = linea.split(";")
+                    codigo_nr = datos[1]
+                except (ValueError, IndexError):
+                    aux.write(linea + '\n')
+                    continue
+
+                if codigo_nr == nr_borrar:
+                    encontrado = True
+                    confirmacion = input(f"¿Seguro que quiere borrar la reserva {codigo_nr} (Usuario: {datos[0]})? (s/n): ").strip().lower()
+                    if confirmacion == 's':
+                        butacas_a_liberar = datos[4].split(",")
+                        print(f"Reserva {codigo_nr} eliminada.")
+                    else:
+                        aux.write(linea + '\n')
+                        print("Operación cancelada.")
+                        encontrado = False 
+                else:
+                    aux.write(linea + '\n') 
+    except FileNotFoundError:
+        print(f"El archivo {ARCHIVO_RESERVAS} no existe.")
+        return
+    except OSError as error:
+        print("Error en el acceso al archivo:", error)
         return
 
-    mostrar_reservas(reservas)
-    nr = Main.ingreso_entero("Ingrese el número de reserva que desea borrar: ")
-    indice = None
-    i = 0
-    while i < len(reservas) and indice is None:
-        if reservas[i][1] == nr:
-            indice = i
-        i += 1
-        
-    if indice is None:
-        print("No se encontró una reserva con ese número.")
+    if encontrado:
+        try:
+            os.remove(ARCHIVO_RESERVAS)
+            os.rename(temp_archivo, ARCHIVO_RESERVAS)
+            
+            j = 0
+            while j < len(butacas_a_liberar):
+                buscada = butacas_a_liberar[j].strip().upper()
+                pos = buscar_pos(buscada)
+                if pos is not None:
+                    f, c = pos
+                    butacas_estado[f][c] = "0" 
+                j += 1
+            print("Las butacas fueron liberadas en el sistema.")
+
+        except OSError as error:
+            print("Error al reemplazar el archivo:", error)
     else:
-        partes = reservas[indice][4].split(",") 
-        j = 0
-        while j < len(partes):
-            buscada = partes[j].strip().upper()
-            pos = buscar_pos(buscada)
-            if pos is not None:
-                f, c = pos
-                butacas_estado[f][c] = "0"
-            j += 1
-        
-        reservas.pop(indice)
-        
-        guardar_reservas(reservas)
-        print(f"Reserva {nr} eliminada correctamente. Las butacas fueron liberadas.")
+        os.remove(temp_archivo)
+        if not butacas_a_liberar: 
+            print(f"Reserva no encontrada con NR {nr_borrar}.")
         
     mostrar_butacas()
     input("Presione ENTER para continuar.")
 
 if __name__ == "__main__":
     init_estado_desde_reservas()
-    reservas_leidas = leer_reservas()
+    reservas_leidas = obtener_todas_las_reservas()
     mostrar_reservas(reservas_leidas)
     mostrar_butacas()
