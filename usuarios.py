@@ -1,5 +1,5 @@
 import re
-import os  # Importamos OS
+import os
 from funciones import obtener_todas_las_funciones
 from reservas import obtener_todas_las_reservas 
 import Main
